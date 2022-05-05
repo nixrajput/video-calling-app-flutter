@@ -22,16 +22,17 @@ class HomeView extends StatelessWidget {
               Text(
                 Get.find<AuthService>().channelId.toString(),
                 style: AppStyles.style20Bold,
+                textAlign: TextAlign.center,
               ),
               Dimens.boxHeight16,
               const NxFilledButton(
-                label: 'Start Meeting',
+                label: 'Start',
                 onTap: RouteManagement.goToCallingView,
               ),
               Dimens.boxHeight16,
-              NxFilledButton(
-                label: 'Join Meeting',
-                onTap: () {},
+              const NxFilledButton(
+                label: 'Join',
+                onTap: RouteManagement.goToJoinView,
               ),
               Dimens.boxHeight32,
               NxFilledButton(

@@ -17,7 +17,7 @@ abstract class AppRoutes {
   static const editProfile = _Routes.editProfile;
 
   static const calling = _Routes.calling;
-  static const postDetails = _Routes.postDetails;
+  static const join = _Routes.join;
 
   static const userProfile = _Routes.userProfile;
 }
@@ -39,7 +39,7 @@ abstract class _Routes {
   static const editProfile = '/edit_profile';
 
   static const calling = '/calling';
-  static const postDetails = '/post_details';
+  static const join = '/join';
 
   static const userProfile = '/user_profile';
 }

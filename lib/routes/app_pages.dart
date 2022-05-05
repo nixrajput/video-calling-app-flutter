@@ -9,7 +9,9 @@ import 'package:video_calling_app/modules/auth/views/login_view.dart';
 import 'package:video_calling_app/modules/auth/views/register_view.dart';
 import 'package:video_calling_app/modules/auth/views/reset_password_view.dart';
 import 'package:video_calling_app/modules/calling/bindings/calling_binding.dart';
+import 'package:video_calling_app/modules/calling/bindings/join_binding.dart';
 import 'package:video_calling_app/modules/calling/views/calling_view.dart';
+import 'package:video_calling_app/modules/calling/views/join_view.dart';
 import 'package:video_calling_app/modules/home/bindings/home_binding.dart';
 import 'package:video_calling_app/modules/home/views/home_view.dart';
 
@@ -40,7 +42,6 @@ abstract class AppPages {
       binding: HomeBinding(),
       transition: Transition.downToUp,
     ),
-
     GetPage(
       name: _Routes.forgotPassword,
       page: ForgotPasswordView.new,
@@ -69,12 +70,12 @@ abstract class AppPages {
       binding: CallingBinding(),
       transition: Transition.downToUp,
     ),
-    // GetPage(
-    //   name: _Routes.settings,
-    //   page: SettingsView.new,
-    //   binding: SettingBinding(),
-    //   transitionDuration: transitionDuration,
-    //   transition: Transition.downToUp,
-    // ),
+    GetPage(
+      name: _Routes.join,
+      page: JoinView.new,
+      binding: JoinBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.downToUp,
+    ),
   ];
 }

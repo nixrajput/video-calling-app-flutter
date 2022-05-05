@@ -13,8 +13,8 @@ import 'package:video_calling_app/helpers/permissions.dart';
 import 'package:video_calling_app/helpers/utils.dart';
 import 'package:video_calling_app/routes/route_management.dart';
 
-class CallingController extends GetxController {
-  static CallingController get find => Get.find();
+class ChannelController extends GetxController {
+  static ChannelController get find => Get.find();
 
   final _auth = AuthService.find;
 
@@ -27,6 +27,8 @@ class CallingController extends GetxController {
   bool _isConnecting = false;
   bool _switchRender = false;
   bool _showControls = true;
+
+  late String _channelId;
 
   String _token = '';
 
@@ -44,12 +46,14 @@ class CallingController extends GetxController {
 
   List<int> get participants => _participants;
 
+  String get channelId => _channelId;
+
   Future<void> _getRtcToken() async {
     AppUtils.printLog("Get RTC Token Request...");
 
     try {
       final response =
-          await _apiProvider.getRctToken(_auth.channelId, _auth.agoraUid);
+          await _apiProvider.getRctToken(_channelId, _auth.agoraUid);
 
       final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
 
@@ -156,11 +160,13 @@ class CallingController extends GetxController {
   }
 
   void toggleMuteVideo() {
+    _rtcEngine.muteLocalVideoStream(!_cameraToggle);
     _cameraToggle = !_cameraToggle;
     update();
   }
 
   void toggleMuteAudio() {
+    _rtcEngine.muteLocalAudioStream(!_micToggle);
     _micToggle = !_micToggle;
     update();
   }
@@ -196,7 +202,10 @@ class CallingController extends GetxController {
     var cameraPerm = await AppPermissions.checkCameraPermission();
     var micPerm = await AppPermissions.checkMicPermission();
 
-    if (!cameraPerm || !micPerm) return;
+    if (!cameraPerm || !micPerm) {
+      RouteManagement.goToBack();
+      return;
+    }
 
     _isConnecting = true;
     update();
@@ -205,7 +214,7 @@ class CallingController extends GetxController {
       await _initAgoraRtcEngine();
       await _rtcEngine.joinChannel(
         _token,
-        _auth.channelId,
+        _channelId,
         null,
         int.parse(_auth.agoraUid),
       );
@@ -217,6 +226,7 @@ class CallingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _channelId = Get.arguments ?? _auth.channelId;
     _init();
   }
 
