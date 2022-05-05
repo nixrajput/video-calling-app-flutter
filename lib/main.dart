@@ -37,6 +37,7 @@ Future<void> initServices() async {
         ? AppUtils.printLog("User is logged in.")
         : AppUtils.printLog("User is not logged in.");
   });
+  await Get.find<AuthService>().getChannelInfo();
 }
 
 class MyApp extends StatelessWidget {

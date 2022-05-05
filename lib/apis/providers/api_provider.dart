@@ -161,4 +161,16 @@ class ApiProvider {
 
     return response;
   }
+
+  Future<http.Response> getRctToken(String channelId, String userId) async {
+    final response = await _client.get(
+      Uri.parse(
+          '${AppUrls.tokenBaseUrl}${AppUrls.getRtcToken}?channelName=$channelId&uid=$userId'),
+      headers: {
+        "content-type": "application/json",
+      },
+    );
+
+    return response;
+  }
 }

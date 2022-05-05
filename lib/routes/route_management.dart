@@ -42,6 +42,10 @@ abstract class RouteManagement {
     Get.toNamed(AppRoutes.changePassword);
   }
 
+  static void goToCallingView() {
+    Get.toNamed(AppRoutes.calling);
+  }
+
   static void goToBack() {
     Get.back();
   }

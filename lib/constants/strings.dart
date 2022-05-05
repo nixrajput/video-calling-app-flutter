@@ -120,6 +120,12 @@ abstract class StringValues {
   static const security = 'Security';
   static const privacy = 'Privacy';
   static const addComment = 'Add a comment';
+  static const channelId = "channelId";
+  static const agoraUid = "agoraUid";
+  static const channelData = "channelData";
+  static const channelDataSaved = "Channel info saved.";
+  static const channelDataFound = "Channel info found.";
+  static const channelDataNotFound = "Channel info not found.";
 
   static const String themeMode = 'themeMode';
   static const String system = 'System';

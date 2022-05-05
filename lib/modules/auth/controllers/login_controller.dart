@@ -28,6 +28,7 @@ class LoginController extends GetxController {
   final _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;
+
   bool get showPassword => _showPassword.value;
 
   set setLoginData(LoginResponse value) {
@@ -89,6 +90,9 @@ class LoginController extends GetxController {
         _auth.setExpiresAt = _expiresAt;
         _auth.autoLogout();
         _clearLoginTextControllers();
+
+        await AppUtils.saveChannelDataToLocalStorage();
+        await _auth.getChannelInfo();
 
         AppUtils.closeDialog();
         _isLoading.value = false;

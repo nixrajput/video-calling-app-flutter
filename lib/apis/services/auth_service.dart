@@ -11,24 +11,44 @@ class AuthService extends GetxService {
 
   String _authToken = '';
   String _expiresAt = '';
+  String _channelId = '';
+  String _agoraUid = '';
   StreamSubscription<dynamic>? _streamSubscription;
 
   String get authToken => _authToken;
+
   String get expiresAt => _expiresAt;
 
+  String get channelId => _channelId;
+
+  String get agoraUid => _agoraUid;
+
   set setAuthToken(String value) => _authToken = value;
+
   set setExpiresAt(String value) => _expiresAt = value;
+
+  set setChannelId(String value) => _channelId = value;
+
+  set setAgoraUid(String value) => _agoraUid = value;
 
   Future<String> getToken() async {
     var _token = '';
     final decodedData = await AppUtils.readLoginDataFromLocalStorage();
     if (decodedData != null) {
       _expiresAt = decodedData[StringValues.expiresAt];
-      _token = decodedData[StringValues.token];
       setAuthToken = decodedData[StringValues.token];
+      _token = decodedData[StringValues.token];
       autoLogout();
     }
     return _token;
+  }
+
+  Future<void> getChannelInfo() async {
+    final decodedData = await AppUtils.readChannelDataFromLocalStorage();
+    if (decodedData != null) {
+      setChannelId = decodedData[StringValues.channelId].toString();
+      setAgoraUid = decodedData[StringValues.agoraUid].toString();
+    }
   }
 
   void autoLogout() async {

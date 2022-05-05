@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,11 @@ import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/constants/styles.dart';
+
+const asciiStart = 33;
+const asciiEnd = 126;
+const numericStart = 48;
+const numericEnd = 57;
 
 abstract class AppUtils {
   static final storage = GetStorage();
@@ -206,6 +212,30 @@ abstract class AppUtils {
     }
   }
 
+  static Future<void> saveChannelDataToLocalStorage() async {
+    var _channelId = randomNumeric(10);
+    var _agoraUid = randomIntNumeric(8).toUnsigned(32);
+
+    final data = jsonEncode({
+      StringValues.channelId: _channelId,
+      StringValues.agoraUid: _agoraUid,
+    });
+
+    await storage.write(StringValues.channelData, data);
+    printLog(StringValues.channelDataSaved);
+  }
+
+  static Future<dynamic> readChannelDataFromLocalStorage() async {
+    if (storage.hasData(StringValues.channelData)) {
+      final data = await storage.read(StringValues.channelData);
+      var decodedData = jsonDecode(data);
+      printLog(StringValues.channelDataFound);
+      return decodedData;
+    }
+    printLog(StringValues.channelDataNotFound);
+    return null;
+  }
+
   static Future<dynamic> readLoginDataFromLocalStorage() async {
     if (storage.hasData(StringValues.loginData)) {
       final data = await storage.read(StringValues.loginData);
@@ -219,6 +249,7 @@ abstract class AppUtils {
 
   static Future<void> clearLoginDataFromLocalStorage() async {
     await storage.remove(StringValues.loginData);
+    await storage.remove(StringValues.channelData);
     printLog(StringValues.authDetailsRemoved);
   }
 
@@ -266,4 +297,27 @@ abstract class AppUtils {
 
     return null;
   }
+
+  /// Generates a random integer where [from] <= [to].
+  static int randomBetween(int from, int to) {
+    if (from > to) throw Exception('$from cannot be > $to');
+    var rand = Random();
+    return ((to - from) * rand.nextDouble()).toInt() + from;
+  }
+
+  /// Generates a random string of [length] with characters
+  /// between ascii [from] to [to].
+  /// Defaults to characters of ascii '!' to '~'.
+  static String randomString(int length,
+      {int from = asciiStart, int to = asciiEnd}) {
+    return String.fromCharCodes(
+        List.generate(length, (index) => randomBetween(from, to)));
+  }
+
+  /// Generates a random string of [length] with only numeric characters.
+  static String randomNumeric(int length) =>
+      randomString(length, from: numericStart, to: numericEnd);
+
+  static int randomIntNumeric(int length) =>
+      int.parse(randomString(length, from: numericStart, to: numericEnd));
 }
