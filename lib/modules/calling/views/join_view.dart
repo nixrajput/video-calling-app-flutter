@@ -56,7 +56,8 @@ class JoinView extends StatelessWidget {
                                       .color,
                                 ),
                                 controller: con.channelIdTextController,
-                                onEditingComplete: con.focusNode.unfocus,
+                                onEditingComplete:
+                                    FocusManager.instance.primaryFocus!.unfocus,
                               ),
                               Dimens.boxHeight8,
                               Row(
@@ -71,7 +72,7 @@ class JoinView extends StatelessWidget {
                                     onChanged: (value) {
                                       con.enableVideo(value);
                                     },
-                                    value: con.cameraToggle,
+                                    value: !con.cameraToggle,
                                     activeColor: ColorValues.primaryColor,
                                   ),
                                 ],
@@ -88,7 +89,7 @@ class JoinView extends StatelessWidget {
                                     onChanged: (value) {
                                       con.enableAudio(value);
                                     },
-                                    value: con.micToggle,
+                                    value: !con.micToggle,
                                     activeColor: ColorValues.primaryColor,
                                   ),
                                 ],

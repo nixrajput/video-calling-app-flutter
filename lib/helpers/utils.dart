@@ -172,7 +172,7 @@ abstract class AppUtils {
         ),
         shouldIconPulse: false,
         backgroundColor: Theme.of(Get.context!).snackBarTheme.backgroundColor!,
-        duration: Duration(seconds: duration ?? 2),
+        duration: Duration(seconds: duration ?? 1),
       ),
     );
   }

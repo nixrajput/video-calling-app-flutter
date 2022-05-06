@@ -12,6 +12,7 @@ import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/helpers/permissions.dart';
 import 'package:video_calling_app/helpers/utils.dart';
 import 'package:video_calling_app/routes/route_management.dart';
+import 'package:wakelock/wakelock.dart';
 
 class ChannelController extends GetxController {
   static ChannelController get find => Get.find();
@@ -22,8 +23,8 @@ class ChannelController extends GetxController {
 
   late RtcEngine _rtcEngine;
 
-  bool _micToggle = true;
-  bool _cameraToggle = true;
+  bool _micToggle = false;
+  bool _cameraToggle = false;
   bool _isConnecting = false;
   bool _switchRender = false;
   bool _showControls = true;
@@ -59,7 +60,6 @@ class ChannelController extends GetxController {
 
       if (response.statusCode == 200) {
         _token = decodedData['key'];
-        AppUtils.printLog(_token);
       } else {
         AppUtils.showSnackBar(
           StringValues.noData,
@@ -95,8 +95,6 @@ class ChannelController extends GetxController {
         joinChannelSuccess: (channel, uid, elapsed) {
           final message = 'onJoinChannel: $channel, uid: $uid';
           AppUtils.printLog(message);
-          // _participants.add(uid);
-          // update();
           AppUtils.showSnackBar("You joined.", 'success');
         },
         userJoined: (uid, elapsed) {
@@ -160,14 +158,17 @@ class ChannelController extends GetxController {
   }
 
   void toggleMuteVideo() {
-    _rtcEngine.muteLocalVideoStream(!_cameraToggle);
     _cameraToggle = !_cameraToggle;
+    _rtcEngine.muteLocalVideoStream(_cameraToggle);
+
+    AppUtils.printLog("Camera: $_cameraToggle");
     update();
   }
 
   void toggleMuteAudio() {
-    _rtcEngine.muteLocalAudioStream(!_micToggle);
     _micToggle = !_micToggle;
+    _rtcEngine.muteLocalAudioStream(_micToggle);
+    AppUtils.printLog("Mic: $_micToggle");
     update();
   }
 
@@ -187,6 +188,7 @@ class ChannelController extends GetxController {
   }
 
   Future<void> _initAgoraRtcEngine() async {
+    await Wakelock.enable();
     _rtcEngine = await RtcEngine.create(AppSecrets.appId);
     _addAgoraEventHandlers();
 
@@ -196,8 +198,6 @@ class ChannelController extends GetxController {
   }
 
   Future<void> _init() async {
-    // await Wakelock.enable();
-
     var cameraPerm = await AppPermissions.checkCameraPermission();
     var micPerm = await AppPermissions.checkMicPermission();
 
@@ -226,8 +226,10 @@ class ChannelController extends GetxController {
   void onInit() {
     super.onInit();
     _channelId = Get.arguments[0] ?? _auth.channelId;
-    _cameraToggle = Get.arguments[1] ?? true;
-    _micToggle = Get.arguments[2] ?? true;
+    _cameraToggle = Get.arguments[1] ?? false;
+    _micToggle = Get.arguments[2] ?? false;
+    AppUtils.printLog("Mic: $_micToggle");
+    AppUtils.printLog("Camera: $_cameraToggle");
     _init();
   }
 

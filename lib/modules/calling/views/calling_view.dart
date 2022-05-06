@@ -40,7 +40,7 @@ class _CallingViewState extends State<CallingView>
       child: Stack(
         children: [
           if (logic.participants.isNotEmpty) _renderRemoteVideo(logic),
-          if (logic.participants.length < 3) _renderLocalVideo(logic),
+          if (logic.participants.length <= 2) _renderLocalVideo(logic),
           if (logic.showControls)
             Align(
               alignment: Alignment.bottomCenter,
@@ -53,19 +53,19 @@ class _CallingViewState extends State<CallingView>
 
   Widget _renderRemoteVideo(ChannelController logic) {
     if (logic.participants.length == 1) {
-      return Expanded(
-        child: rtc_remote_view.SurfaceView(
-          uid: logic.participants.first,
-          channelId: logic.channelId,
-          zOrderOnTop: true,
-          zOrderMediaOverlay: true,
-        ),
+      return rtc_remote_view.SurfaceView(
+        uid: logic.participants[0],
+        channelId: logic.channelId,
+        zOrderOnTop: true,
+        zOrderMediaOverlay: true,
       );
     }
     if (logic.participants.length == 2) {
       return Column(
         children: [
-          Expanded(
+          SizedBox(
+            width: Dimens.screenWidth,
+            height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
             child: rtc_remote_view.SurfaceView(
               uid: logic.participants[0],
               channelId: logic.channelId,
@@ -74,7 +74,9 @@ class _CallingViewState extends State<CallingView>
             ),
           ),
           Dimens.boxHeight4,
-          Expanded(
+          SizedBox(
+            width: Dimens.screenWidth,
+            height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
             child: rtc_remote_view.SurfaceView(
               uid: logic.participants[1],
               channelId: logic.channelId,
@@ -88,86 +90,11 @@ class _CallingViewState extends State<CallingView>
     if (logic.participants.length == 3) {
       return Column(
         children: [
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: rtc_remote_view.SurfaceView(
-                    uid: logic.participants[0],
-                    channelId: logic.channelId,
-                    zOrderOnTop: true,
-                    zOrderMediaOverlay: true,
-                  ),
-                ),
-                Dimens.boxWidth4,
-                Expanded(
-                  child: rtc_remote_view.SurfaceView(
-                    uid: logic.participants[1],
-                    channelId: logic.channelId,
-                    zOrderOnTop: true,
-                    zOrderMediaOverlay: true,
-                  ),
-                )
-              ],
-            ),
-          ),
-          Dimens.boxHeight4,
-          _renderLocalVideo(logic),
-        ],
-      );
-    }
-    if (logic.participants.length == 4) {
-      return Column(
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: rtc_remote_view.SurfaceView(
-                    uid: logic.participants[0],
-                    channelId: logic.channelId,
-                    zOrderOnTop: true,
-                    zOrderMediaOverlay: true,
-                  ),
-                ),
-                Dimens.boxWidth4,
-                Expanded(
-                  child: rtc_remote_view.SurfaceView(
-                    uid: logic.participants[1],
-                    channelId: logic.channelId,
-                    zOrderOnTop: true,
-                    zOrderMediaOverlay: true,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Dimens.boxHeight4,
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: rtc_remote_view.SurfaceView(
-                    uid: logic.participants[2],
-                    channelId: logic.channelId,
-                    zOrderOnTop: true,
-                    zOrderMediaOverlay: true,
-                  ),
-                ),
-                Dimens.boxWidth4,
-                _renderLocalVideo(logic),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-    return Column(
-      children: [
-        Expanded(
-          child: Row(
+          Row(
             children: [
-              Expanded(
+              SizedBox(
+                width: (Dimens.screenWidth * 0.5) - Dimens.two,
+                height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
                 child: rtc_remote_view.SurfaceView(
                   uid: logic.participants[0],
                   channelId: logic.channelId,
@@ -176,7 +103,46 @@ class _CallingViewState extends State<CallingView>
                 ),
               ),
               Dimens.boxWidth4,
-              Expanded(
+              SizedBox(
+                width: (Dimens.screenWidth * 0.5) - Dimens.two,
+                height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
+                child: rtc_remote_view.SurfaceView(
+                  uid: logic.participants[1],
+                  channelId: logic.channelId,
+                  zOrderOnTop: true,
+                  zOrderMediaOverlay: true,
+                ),
+              )
+            ],
+          ),
+          Dimens.boxHeight4,
+          SizedBox(
+            width: Dimens.screenWidth,
+            height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
+            child: _renderLocalVideo(logic),
+          ),
+        ],
+      );
+    }
+    if (logic.participants.length == 4) {
+      return Column(
+        children: [
+          Row(
+            children: [
+              SizedBox(
+                width: (Dimens.screenWidth * 0.5) - Dimens.two,
+                height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
+                child: rtc_remote_view.SurfaceView(
+                  uid: logic.participants[0],
+                  channelId: logic.channelId,
+                  zOrderOnTop: true,
+                  zOrderMediaOverlay: true,
+                ),
+              ),
+              Dimens.boxWidth4,
+              SizedBox(
+                width: (Dimens.screenWidth * 0.5) - Dimens.two,
+                height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
                 child: rtc_remote_view.SurfaceView(
                   uid: logic.participants[1],
                   channelId: logic.channelId,
@@ -186,12 +152,12 @@ class _CallingViewState extends State<CallingView>
               ),
             ],
           ),
-        ),
-        Dimens.boxHeight4,
-        Expanded(
-          child: Row(
+          Dimens.boxHeight4,
+          Row(
             children: [
-              Expanded(
+              SizedBox(
+                width: (Dimens.screenWidth * 0.5) - Dimens.two,
+                height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
                 child: rtc_remote_view.SurfaceView(
                   uid: logic.participants[2],
                   channelId: logic.channelId,
@@ -200,35 +166,88 @@ class _CallingViewState extends State<CallingView>
                 ),
               ),
               Dimens.boxWidth4,
-              _renderLocalVideo(logic),
+              SizedBox(
+                width: (Dimens.screenWidth * 0.5) - Dimens.two,
+                height: (Dimens.screenHeight * 0.5) - Dimens.fourteen,
+                child: _renderLocalVideo(logic),
+              ),
             ],
           ),
+        ],
+      );
+    }
+    return Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: (Dimens.screenWidth * 0.5) - Dimens.two,
+              height: (Dimens.screenHeight * 0.5) - Dimens.eighty,
+              child: rtc_remote_view.SurfaceView(
+                uid: logic.participants[0],
+                channelId: logic.channelId,
+                zOrderOnTop: true,
+                zOrderMediaOverlay: true,
+              ),
+            ),
+            Dimens.boxWidth4,
+            SizedBox(
+              width: (Dimens.screenWidth * 0.5) - Dimens.two,
+              height: (Dimens.screenHeight * 0.5) - Dimens.eighty,
+              child: rtc_remote_view.SurfaceView(
+                uid: logic.participants[1],
+                channelId: logic.channelId,
+                zOrderOnTop: true,
+                zOrderMediaOverlay: true,
+              ),
+            ),
+          ],
+        ),
+        Dimens.boxHeight4,
+        Row(
+          children: [
+            SizedBox(
+              width: (Dimens.screenWidth * 0.5) - Dimens.two,
+              height: (Dimens.screenHeight * 0.5) - Dimens.eighty,
+              child: rtc_remote_view.SurfaceView(
+                uid: logic.participants[2],
+                channelId: logic.channelId,
+                zOrderOnTop: true,
+                zOrderMediaOverlay: true,
+              ),
+            ),
+            Dimens.boxWidth4,
+            SizedBox(
+              width: (Dimens.screenWidth * 0.5) - Dimens.two,
+              height: (Dimens.screenHeight * 0.5) - Dimens.eighty,
+              child: _renderLocalVideo(logic),
+            ),
+          ],
         ),
         Dimens.boxHeight4,
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
           child: SizedBox(
-            height: Dimens.hundred * 1.4,
-            child: Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: logic.participants
-                    .skip(3)
-                    .map((uid) => Padding(
-                          padding: const EdgeInsets.only(right: 4.0),
-                          child: SizedBox(
-                            width: Dimens.screenWidth * 0.3,
-                            child: rtc_remote_view.SurfaceView(
-                              uid: uid,
-                              channelId: logic.channelId,
-                              zOrderOnTop: true,
-                              zOrderMediaOverlay: true,
-                            ),
+            height: (Dimens.hundred * 1.4) - Dimens.twelve,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: logic.participants
+                  .skip(4)
+                  .map((uid) => Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: SizedBox(
+                          width: Dimens.screenWidth * 0.3,
+                          child: rtc_remote_view.SurfaceView(
+                            uid: uid,
+                            channelId: logic.channelId,
+                            zOrderOnTop: true,
+                            zOrderMediaOverlay: true,
                           ),
-                        ))
-                    .toList(),
-              ),
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
         )
@@ -247,12 +266,10 @@ class _CallingViewState extends State<CallingView>
         ),
       );
     }
-    if (logic.participants.isNotEmpty && logic.participants.length > 2) {
-      return const Expanded(
-        child: rtc_local_view.SurfaceView(
-          zOrderOnTop: true,
-          zOrderMediaOverlay: true,
-        ),
+    if (logic.participants.length > 2) {
+      return const rtc_local_view.SurfaceView(
+        zOrderOnTop: true,
+        zOrderMediaOverlay: true,
       );
     }
     return Positioned(
@@ -283,31 +300,35 @@ class _CallingViewState extends State<CallingView>
           mainAxisSize: MainAxisSize.min,
           children: [
             CircleAvatar(
-              backgroundColor: logic.micToggle
+              backgroundColor: !logic.micToggle
                   ? ColorValues.whiteColor
                   : ColorValues.errorColor,
               radius: Dimens.twentyFour,
               child: NxIconButton(
-                icon: logic.micToggle ? Icons.mic : Icons.mic_off,
-                iconColor: logic.micToggle
+                icon: !logic.micToggle ? Icons.mic : Icons.mic_off,
+                iconColor: !logic.micToggle
                     ? Theme.of(Get.context!).iconTheme.color
                     : ColorValues.whiteColor,
                 onTap: () => logic.toggleMuteAudio(),
               ),
             ),
             CircleAvatar(
-              backgroundColor: logic.cameraToggle
+              backgroundColor: !logic.cameraToggle
                   ? ColorValues.whiteColor
                   : ColorValues.errorColor,
               radius: Dimens.twentyFour,
               child: NxIconButton(
-                icon: logic.cameraToggle
+                icon: !logic.cameraToggle
                     ? Icons.videocam_outlined
                     : Icons.videocam_off_outlined,
-                iconColor: logic.cameraToggle
+                iconColor: !logic.cameraToggle
                     ? Theme.of(Get.context!).iconTheme.color
                     : ColorValues.whiteColor,
                 onTap: () => logic.toggleMuteVideo(),
+                // onTap: () {
+                //   logic.participants.add(AppUtils.randomIntNumeric(8));
+                //   logic.update();
+                // },
               ),
             ),
             CircleAvatar(
