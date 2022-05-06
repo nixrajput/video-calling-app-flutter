@@ -11,6 +11,7 @@ import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/constants/themes.dart';
 import 'package:video_calling_app/helpers/utils.dart';
+import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
 import 'package:video_calling_app/routes/app_pages.dart';
 
 void main() async {
@@ -29,7 +30,8 @@ Future<void> initServices() async {
   await GetStorage.init();
   Get
     ..put(AppThemeController(), permanent: true)
-    ..put(AuthService(), permanent: true);
+    ..put(AuthService(), permanent: true)
+    ..put(ProfileController(), permanent: true);
 
   await Get.find<AuthService>().getToken().then((value) {
     isLogin = value.isEmpty ? false : true;
@@ -38,6 +40,7 @@ Future<void> initServices() async {
         : AppUtils.printLog("User is not logged in.");
   });
   await Get.find<AuthService>().getChannelInfo();
+  await Get.find<ProfileController>().getProfileDetails();
 }
 
 class MyApp extends StatelessWidget {

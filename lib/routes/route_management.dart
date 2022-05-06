@@ -34,20 +34,24 @@ abstract class RouteManagement {
     Get.toNamed(AppRoutes.settings);
   }
 
-  static void goToEditProfileView() {
-    Get.toNamed(AppRoutes.editProfile);
-  }
-
   static void goToChangePasswordView() {
     Get.toNamed(AppRoutes.changePassword);
   }
 
   static void goToCallingView({String? channelId}) {
-    Get.toNamed(AppRoutes.calling, arguments: channelId);
+    Get.offAndToNamed(AppRoutes.calling, arguments: channelId);
+  }
+
+  static void goToStartView() {
+    Get.toNamed(AppRoutes.start);
   }
 
   static void goToJoinView() {
     Get.toNamed(AppRoutes.join);
+  }
+
+  static void goToProfileView() {
+    Get.toNamed(AppRoutes.profile);
   }
 
   static void goToBack() {

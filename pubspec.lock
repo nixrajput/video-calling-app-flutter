@@ -328,13 +328,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
-  flutter_datetime_picker:
-    dependency: "direct main"
-    description:
-      name: flutter_datetime_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.5.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -369,7 +362,7 @@ packages:
       name: flutter_screenutil
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.1"
+    version: "5.5.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -456,14 +449,14 @@ packages:
       name: image_cropper
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   image_cropper_for_web:
     dependency: transitive
     description:
       name: image_cropper_for_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.2"
+    version: "0.0.3"
   image_cropper_platform_interface:
     dependency: transitive
     description:
@@ -507,7 +500,7 @@ packages:
     source: hosted
     version: "2.4.4"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -667,13 +660,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  pattern_formatter:
-    dependency: "direct main"
-    description:
-      name: pattern_formatter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   pedantic:
     dependency: transitive
     description:
@@ -904,7 +890,7 @@ packages:
     source: hosted
     version: "1.0.0+1"
   uuid:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: uuid
       url: "https://pub.dartlang.org"

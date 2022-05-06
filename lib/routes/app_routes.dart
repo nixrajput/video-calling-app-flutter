@@ -14,12 +14,12 @@ abstract class AppRoutes {
   static const resetPassword = _Routes.resetPassword;
   static const changePassword = _Routes.changePassword;
 
+  static const profile = _Routes.profile;
   static const editProfile = _Routes.editProfile;
 
   static const calling = _Routes.calling;
+  static const start = _Routes.start;
   static const join = _Routes.join;
-
-  static const userProfile = _Routes.userProfile;
 }
 
 abstract class _Routes {
@@ -36,10 +36,10 @@ abstract class _Routes {
   static const resetPassword = '/reset_password';
   static const changePassword = '/change_password';
 
+  static const profile = '/profile';
   static const editProfile = '/edit_profile';
 
   static const calling = '/calling';
+  static const start = '/start';
   static const join = '/join';
-
-  static const userProfile = '/user_profile';
 }

@@ -19,13 +19,11 @@ class NxCircleNetworkImage extends StatelessWidget {
     return CircleAvatar(
       backgroundColor: ColorValues.grayColor,
       radius: radius ?? Dimens.fourtyEight,
-      foregroundImage: CachedNetworkImageProvider(
-        imageUrl,
-        errorListener: () => const Icon(
-          CupertinoIcons.info,
-          color: ColorValues.errorColor,
-        ),
-      ),
+      foregroundImage: CachedNetworkImageProvider(imageUrl,
+          errorListener: () => const Icon(
+                CupertinoIcons.info,
+                color: ColorValues.errorColor,
+              )),
       onForegroundImageError: (obj, stc) => const Icon(
         CupertinoIcons.info,
         color: ColorValues.errorColor,

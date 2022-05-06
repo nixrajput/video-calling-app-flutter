@@ -12,6 +12,6 @@ flutter_native_splash:
 
   fullscreen: true
 
-  android_12:
-    image: "assets/logo_trans.png"
-    icon_background_color: "#F5F5F5"
+#  android_12:
+#    image: "assets/logo_trans.png"
+#    icon_background_color: "#F5F5F5"

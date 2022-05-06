@@ -25,22 +25,22 @@ class NxAssetImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width ?? double.infinity,
-      height: height,
+      width: width ?? width,
+      height: height ?? height,
       constraints: BoxConstraints(
         maxWidth: maxWidth ?? Dimens.screenWidth,
         maxHeight: maxHeight ?? Dimens.screenHeight,
       ),
       child: Image.asset(
         imgAsset,
-        fit: fit ?? BoxFit.contain,
         errorBuilder: (ctx, url, err) => const Icon(
           CupertinoIcons.info,
           color: ColorValues.errorColor,
         ),
-        width: width,
-        height: height,
-        scale: scale ?? 1.0,
+        width: width ?? width,
+        height: height ?? height,
+        scale: scale ?? scale,
+        fit: fit ?? BoxFit.contain,
       ),
     );
   }

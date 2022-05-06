@@ -59,10 +59,6 @@ abstract class StringValues {
   static const updateProfileSuccessful = 'Profile updated successfully.';
   static const updateUsernameSuccessful = 'Username updated successfully.';
   static const tokenError = 'Token is expired or invalid.';
-  static const followers = 'Followers';
-  static const following = 'Following';
-  static const follow = 'Follow';
-  static const unfollow = 'Unfollow';
   static const changePassword = 'Change Password';
   static const about = 'About';
   static const userNotFoundError = 'User details not found.';
@@ -73,15 +69,7 @@ abstract class StringValues {
   static const phoneNo = 'Phone Number';
   static const countryCode = 'Country Code';
   static const cropImage = 'Crop Image';
-  static const caption = 'caption';
-  static const createNewPost = 'Create New Post';
-  static const addCaption = 'Add a caption';
-  static const post = 'Post';
-  static const publish = 'Publish';
-  static const trending = 'Trending';
   static const refresh = 'Refresh';
-  static const followUserLine =
-      'Do follow some users to see their latest posts.';
   static const noPosts = 'No posts to show.';
   static const writeSomethingAboutYou = 'Write something about you...';
   static const dobFormat = 'dd mmm, yyyy';
@@ -100,8 +88,6 @@ abstract class StringValues {
   static const usernameNotAvailable = 'Username not available.';
   static const userIdNotFound = 'User Id not found.';
   static const privateAccountWarning = 'Account is private.';
-  static const notFollowingWarning = 'You are not following the user.';
-  static const commentDeleteSuccess = 'Comment deleted.';
   static const deleteConfirmationText = "Are you sure to delete?";
   static const yes = 'Yes';
   static const no = 'No';
@@ -112,20 +98,20 @@ abstract class StringValues {
   static const delete = 'Delete';
   static const share = 'Share';
   static const report = 'Report';
-  static const posts = 'Posts';
   static const public = 'public';
   static const private = 'private';
   static const display = 'Display';
   static const account = 'Account';
   static const security = 'Security';
   static const privacy = 'Privacy';
-  static const addComment = 'Add a comment';
   static const channelId = "channelId";
   static const agoraUid = "agoraUid";
   static const channelData = "channelData";
   static const channelDataSaved = "Channel info saved.";
   static const channelDataFound = "Channel info found.";
   static const channelDataNotFound = "Channel info not found.";
+  static const start = "Start";
+  static const join = "Join";
 
   static const String themeMode = 'themeMode';
   static const String system = 'System';
