@@ -10,12 +10,14 @@ import 'package:video_calling_app/apis/providers/api_provider.dart';
 import 'package:video_calling_app/apis/services/auth_service.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/helpers/utils.dart';
+import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
 import 'package:video_calling_app/routes/route_management.dart';
 
 class LoginController extends GetxController {
   static LoginController get find => Get.find();
 
   final _auth = AuthService.find;
+  final _profileController = ProfileController.find;
 
   final _apiProvider = ApiProvider(http.Client());
 
@@ -93,6 +95,7 @@ class LoginController extends GetxController {
 
         await AppUtils.saveChannelDataToLocalStorage();
         await _auth.getChannelInfo();
+        await _profileController.getProfileDetails();
 
         AppUtils.closeDialog();
         _isLoading.value = false;

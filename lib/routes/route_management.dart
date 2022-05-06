@@ -38,8 +38,10 @@ abstract class RouteManagement {
     Get.toNamed(AppRoutes.changePassword);
   }
 
-  static void goToCallingView({String? channelId}) {
-    Get.offAndToNamed(AppRoutes.calling, arguments: channelId);
+  static void goToCallingView(
+      {String? channelId, bool? enableVideo, bool? enableAudio}) {
+    Get.offAndToNamed(AppRoutes.calling,
+        arguments: [channelId, enableVideo, enableAudio]);
   }
 
   static void goToStartView() {

@@ -26,6 +26,7 @@ class ForgotPasswordView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Dimens.boxHeight8,
                 _buildImageHeader(),
                 Dimens.boxHeight16,
                 _buildForgotPasswordFields(),
@@ -39,18 +40,18 @@ class ForgotPasswordView extends StatelessWidget {
 
   Widget _buildImageHeader() => Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
           NxAssetImage(
-            imgAsset: AssetValues.vector1,
-            maxHeight: Dimens.hundred * 2.0,
+            imgAsset: AssetValues.appIcon,
+            maxHeight: Dimens.eighty,
           ),
-          Padding(
-            padding: Dimens.edgeInsets0_16,
-            child: Text(
-              StringValues.forgotPassword,
-              style: AppStyles.style24Bold,
+          Text(
+            StringValues.appName,
+            textAlign: TextAlign.center,
+            style: AppStyles.style24Bold.copyWith(
+              color: ColorValues.primaryColor,
             ),
           ),
         ],
@@ -58,76 +59,98 @@ class ForgotPasswordView extends StatelessWidget {
 
   Widget _buildForgotPasswordFields() => GetBuilder<PasswordController>(
         builder: (logic) => Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: Dimens.edgeInsets0_16,
-              child: FocusScope(
-                node: logic.focusNode,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: StringValues.email,
-                        hintStyle: TextStyle(
-                          color: ColorValues.grayColor,
-                        ),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      maxLines: 1,
-                      style: AppStyles.style16Normal.copyWith(
-                        color:
-                            Theme.of(Get.context!).textTheme.bodyText1!.color,
-                      ),
-                      controller: logic.emailTextController,
-                      onEditingComplete: logic.focusNode.unfocus,
-                    ),
-                    Dimens.boxHeight32,
-                    NxFilledButton(
-                      onTap: () => logic.sendResetPasswordOTP(),
-                      label: StringValues.getOtp,
-                      fontSize: Dimens.sixTeen,
-                      width: double.infinity,
-                    ),
-                    Dimens.boxHeight32,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: Dimens.edgeInsets0_8,
+                  child: FocusScope(
+                    node: logic.focusNode,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          StringValues.alreadyHaveOtp,
-                          style: AppStyles.style16Normal,
+                          StringValues.forgotPassword,
+                          style: AppStyles.style24Bold,
                         ),
-                        Dimens.boxWidth4,
-                        const NxTextButton(
-                          label: StringValues.resetPassword,
-                          onTap: RouteManagement.goToResetPasswordView,
-                        ),
-                      ],
-                    ),
-                    Dimens.boxHeight16,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                        Dimens.boxHeight16,
                         Text(
-                          StringValues.alreadyHaveAccount,
-                          style: AppStyles.style16Normal,
+                          'We will send an OTP on this email address.',
+                          style: AppStyles.style14Normal.copyWith(
+                            color: ColorValues.darkGrayColor,
+                          ),
                         ),
-                        Dimens.boxWidth4,
-                        const NxTextButton(
-                          label: StringValues.login,
-                          onTap: RouteManagement.goToLoginView,
+                        Dimens.boxHeight16,
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: StringValues.email,
+                            hintStyle: TextStyle(
+                              color: ColorValues.grayColor,
+                            ),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          maxLines: 1,
+                          style: AppStyles.style16Normal.copyWith(
+                            color: Theme.of(Get.context!)
+                                .textTheme
+                                .bodyText1!
+                                .color,
+                          ),
+                          controller: logic.emailTextController,
+                          onEditingComplete: logic.focusNode.unfocus,
                         ),
+                        Dimens.boxHeight16,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              StringValues.alreadyHaveOtp,
+                              style: AppStyles.style16Normal,
+                            ),
+                            Dimens.boxWidth4,
+                            const NxTextButton(
+                              label: StringValues.resetPassword,
+                              onTap: RouteManagement.goToResetPasswordView,
+                            ),
+                          ],
+                        ),
+                        Dimens.boxHeight16,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              StringValues.alreadyHaveAccount,
+                              style: AppStyles.style16Normal,
+                            ),
+                            Dimens.boxWidth4,
+                            const NxTextButton(
+                              label: StringValues.login,
+                              onTap: RouteManagement.goToLoginView,
+                            ),
+                          ],
+                        ),
+                        Dimens.boxHeight16,
                       ],
                     ),
-                    Dimens.boxHeight32,
-                  ],
+                  ),
                 ),
               ),
-            ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: NxFilledButton(
+                  onTap: () => logic.sendResetPasswordOTP(),
+                  label: StringValues.getOtp,
+                  fontSize: Dimens.sixTeen,
+                  borderRadius: 0.0,
+                ),
+              ),
+            ],
           ),
         ),
       );

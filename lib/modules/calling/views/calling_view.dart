@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:video_calling_app/common/primary_icon_btn.dart';
 import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
-import 'package:video_calling_app/helpers/utils.dart';
 import 'package:video_calling_app/modules/calling/controllers/channel_controller.dart';
 
 class CallingView extends StatefulWidget {
@@ -308,11 +307,7 @@ class _CallingViewState extends State<CallingView>
                 iconColor: logic.cameraToggle
                     ? Theme.of(Get.context!).iconTheme.color
                     : ColorValues.whiteColor,
-                //onTap: () => logic.toggleMuteVideo(),
-                onTap: () {
-                  logic.participants.add(AppUtils.randomIntNumeric(8));
-                  logic.update();
-                },
+                onTap: () => logic.toggleMuteVideo(),
               ),
             ),
             CircleAvatar(

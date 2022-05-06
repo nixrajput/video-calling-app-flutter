@@ -16,7 +16,7 @@
         tools:ignore="ProtectedPermissions" />
 
    <application
-        android:label="Video Calling App"
+        android:label="LiveBox"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

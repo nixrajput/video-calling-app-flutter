@@ -27,6 +27,7 @@ class LoginView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Dimens.boxHeight8,
                 _buildImageHeader(),
                 Dimens.boxHeight16,
                 _buildLoginFields(),
@@ -40,18 +41,18 @@ class LoginView extends StatelessWidget {
 
   Widget _buildImageHeader() => Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
           NxAssetImage(
-            imgAsset: AssetValues.vector1,
-            maxHeight: Dimens.hundred * 2.0,
+            imgAsset: AssetValues.appIcon,
+            maxHeight: Dimens.eighty,
           ),
-          Padding(
-            padding: Dimens.edgeInsets0_16,
-            child: Text(
-              StringValues.login,
-              style: AppStyles.style24Bold,
+          Text(
+            StringValues.appName,
+            textAlign: TextAlign.center,
+            style: AppStyles.style24Bold.copyWith(
+              color: ColorValues.primaryColor,
             ),
           ),
         ],
@@ -59,92 +60,109 @@ class LoginView extends StatelessWidget {
 
   Widget _buildLoginFields() => GetBuilder<LoginController>(
         builder: (logic) => Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: Dimens.edgeInsets0_16,
-              child: FocusScope(
-                node: logic.focusNode,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: StringValues.email,
-                        hintStyle: TextStyle(
-                          color: ColorValues.grayColor,
-                        ),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      maxLines: 1,
-                      style: AppStyles.style16Normal.copyWith(
-                        color:
-                            Theme.of(Get.context!).textTheme.bodyText1!.color,
-                      ),
-                      controller: logic.emailTextController,
-                      onEditingComplete: logic.focusNode.nextFocus,
-                    ),
-                    Dimens.boxHeight24,
-                    TextFormField(
-                      obscureText: logic.showPassword,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        suffixIcon: InkWell(
-                          onTap: logic.toggleViewPassword,
-                          child: Icon(
-                            logic.showPassword
-                                ? CupertinoIcons.eye
-                                : CupertinoIcons.eye_slash,
-                          ),
-                        ),
-                        hintText: StringValues.password,
-                        hintStyle: const TextStyle(
-                          color: ColorValues.grayColor,
-                        ),
-                      ),
-                      keyboardType: TextInputType.visiblePassword,
-                      maxLines: 1,
-                      style: AppStyles.style16Normal.copyWith(
-                        color:
-                            Theme.of(Get.context!).textTheme.bodyText1!.color,
-                      ),
-                      controller: logic.passwordTextController,
-                      onEditingComplete: logic.focusNode.unfocus,
-                    ),
-                    Dimens.boxHeight32,
-                    const NxTextButton(
-                      label: StringValues.forgotPassword,
-                      onTap: RouteManagement.goToForgotPasswordView,
-                    ),
-                    Dimens.boxHeight32,
-                    NxFilledButton(
-                      onTap: () => logic.login(),
-                      label: StringValues.login,
-                      fontSize: Dimens.sixTeen,
-                      width: double.infinity,
-                    ),
-                    Dimens.boxHeight32,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: Dimens.edgeInsets0_8,
+                  child: FocusScope(
+                    node: logic.focusNode,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          StringValues.doNotHaveAccount,
-                          style: AppStyles.style16Normal,
+                          StringValues.login,
+                          style: AppStyles.style24Bold,
                         ),
-                        Dimens.boxWidth4,
+                        Dimens.boxHeight16,
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: StringValues.email,
+                            hintStyle: TextStyle(
+                              color: ColorValues.grayColor,
+                            ),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          maxLines: 1,
+                          style: AppStyles.style16Normal.copyWith(
+                            color: Theme.of(Get.context!)
+                                .textTheme
+                                .bodyText1!
+                                .color,
+                          ),
+                          controller: logic.emailTextController,
+                          onEditingComplete: logic.focusNode.nextFocus,
+                        ),
+                        Dimens.boxHeight24,
+                        TextFormField(
+                          obscureText: logic.showPassword,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            suffixIcon: InkWell(
+                              onTap: logic.toggleViewPassword,
+                              child: Icon(
+                                logic.showPassword
+                                    ? CupertinoIcons.eye
+                                    : CupertinoIcons.eye_slash,
+                              ),
+                            ),
+                            hintText: StringValues.password,
+                            hintStyle: const TextStyle(
+                              color: ColorValues.grayColor,
+                            ),
+                          ),
+                          keyboardType: TextInputType.visiblePassword,
+                          maxLines: 1,
+                          style: AppStyles.style16Normal.copyWith(
+                            color: Theme.of(Get.context!)
+                                .textTheme
+                                .bodyText1!
+                                .color,
+                          ),
+                          controller: logic.passwordTextController,
+                          onEditingComplete: logic.focusNode.unfocus,
+                        ),
+                        Dimens.boxHeight16,
                         const NxTextButton(
-                          label: StringValues.register,
-                          onTap: RouteManagement.goToRegisterView,
+                          label: StringValues.forgotPassword,
+                          onTap: RouteManagement.goToForgotPasswordView,
                         ),
+                        Dimens.boxHeight16,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              StringValues.doNotHaveAccount,
+                              style: AppStyles.style16Normal,
+                            ),
+                            Dimens.boxWidth4,
+                            const NxTextButton(
+                              label: StringValues.register,
+                              onTap: RouteManagement.goToRegisterView,
+                            ),
+                          ],
+                        ),
+                        Dimens.boxHeight16,
                       ],
                     ),
-                    Dimens.boxHeight32,
-                  ],
+                  ),
                 ),
               ),
-            ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: NxFilledButton(
+                  onTap: () => logic.login(),
+                  label: StringValues.login,
+                  fontSize: Dimens.sixTeen,
+                  borderRadius: 0.0,
+                ),
+              ),
+            ],
           ),
         ),
       );

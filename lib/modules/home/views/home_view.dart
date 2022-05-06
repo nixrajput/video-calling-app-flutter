@@ -7,6 +7,7 @@ import 'package:video_calling_app/common/circular_network_image.dart';
 import 'package:video_calling_app/common/custom_app_bar.dart';
 import 'package:video_calling_app/common/primary_filled_btn.dart';
 import 'package:video_calling_app/common/primary_outlined_btn.dart';
+import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/constants/styles.dart';
@@ -32,10 +33,21 @@ class HomeView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      NxAssetImage(
-                        imgAsset: AssetValues.appName,
-                        width: Dimens.hundred * 1.2,
-                        fit: BoxFit.cover,
+                      Row(
+                        children: [
+                          NxAssetImage(
+                            imgAsset: AssetValues.appIcon,
+                            fit: BoxFit.cover,
+                            height: Dimens.twentyFour,
+                          ),
+                          Dimens.boxWidth8,
+                          Text(
+                            StringValues.appName,
+                            style: AppStyles.style20Bold.copyWith(
+                              color: ColorValues.primaryColor,
+                            ),
+                          ),
+                        ],
                       ),
                       GetBuilder<ProfileController>(
                         builder: (logic) => InkWell(

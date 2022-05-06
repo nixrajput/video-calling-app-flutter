@@ -37,26 +37,63 @@ class JoinView extends StatelessWidget {
                         const Expanded(child: SizedBox()),
                         Padding(
                           padding: Dimens.edgeInsets8,
-                          child: Center(
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Channel ID',
-                                hintStyle: TextStyle(
-                                  color: ColorValues.grayColor,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Channel ID',
+                                  hintStyle: TextStyle(
+                                    color: ColorValues.grayColor,
+                                  ),
                                 ),
+                                keyboardType: TextInputType.emailAddress,
+                                maxLines: 1,
+                                style: AppStyles.style16Normal.copyWith(
+                                  color: Theme.of(Get.context!)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color,
+                                ),
+                                controller: con.channelIdTextController,
+                                onEditingComplete: con.focusNode.unfocus,
                               ),
-                              keyboardType: TextInputType.emailAddress,
-                              maxLines: 1,
-                              style: AppStyles.style16Normal.copyWith(
-                                color: Theme.of(Get.context!)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color,
+                              Dimens.boxHeight8,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Camera",
+                                    style: AppStyles.style18Normal,
+                                  ),
+                                  Switch(
+                                    onChanged: (value) {
+                                      con.enableVideo(value);
+                                    },
+                                    value: con.cameraToggle,
+                                    activeColor: ColorValues.primaryColor,
+                                  ),
+                                ],
                               ),
-                              controller: con.channelIdTextController,
-                              onEditingComplete: con.focusNode.unfocus,
-                            ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Audio",
+                                    style: AppStyles.style18Normal,
+                                  ),
+                                  Switch(
+                                    onChanged: (value) {
+                                      con.enableAudio(value);
+                                    },
+                                    value: con.micToggle,
+                                    activeColor: ColorValues.primaryColor,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         const Expanded(child: SizedBox()),
@@ -69,8 +106,11 @@ class JoinView extends StatelessWidget {
                               return;
                             }
                             RouteManagement.goToCallingView(
-                                channelId:
-                                    con.channelIdTextController.text.trim());
+                              channelId:
+                                  con.channelIdTextController.text.trim(),
+                              enableAudio: con.micToggle,
+                              enableVideo: con.cameraToggle,
+                            );
                           },
                         ),
                       ],

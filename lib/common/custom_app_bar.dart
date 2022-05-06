@@ -38,7 +38,7 @@ class NxAppBar extends StatelessWidget {
                   InkWell(
                     onTap: RouteManagement.goToBack,
                     child: CircleAvatar(
-                      backgroundColor: Theme.of(context).dividerColor,
+                      backgroundColor: ColorValues.primaryColor,
                       radius: Dimens.fourteen,
                       child: Icon(
                         CupertinoIcons.left_chevron,

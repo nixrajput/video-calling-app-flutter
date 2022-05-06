@@ -1,12 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class JoinChannelController extends GetxController {
-  static JoinChannelController get find => Get.find();
-
-  final channelIdTextController = TextEditingController();
-
-  final FocusScopeNode focusNode = FocusScopeNode();
+class StartChannelController extends GetxController {
+  static StartChannelController get find => Get.find();
 
   bool _micToggle = true;
   bool _cameraToggle = true;

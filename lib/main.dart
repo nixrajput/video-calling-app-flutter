@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:video_calling_app/apis/services/auth_service.dart';
 import 'package:video_calling_app/apis/services/theme_controller.dart';
-import 'package:video_calling_app/common/overlay.dart';
 import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/constants/themes.dart';
@@ -33,14 +32,16 @@ Future<void> initServices() async {
     ..put(AuthService(), permanent: true)
     ..put(ProfileController(), permanent: true);
 
-  await Get.find<AuthService>().getToken().then((value) {
+  await Get.find<AuthService>().getToken().then((value) async {
     isLogin = value.isEmpty ? false : true;
     isLogin
         ? AppUtils.printLog("User is logged in.")
         : AppUtils.printLog("User is not logged in.");
+    if (isLogin) {
+      await Get.find<ProfileController>().getProfileDetails();
+      await Get.find<AuthService>().getChannelInfo();
+    }
   });
-  await Get.find<AuthService>().getChannelInfo();
-  await Get.find<ProfileController>().getProfileDetails();
 }
 
 class MyApp extends StatelessWidget {
@@ -74,20 +75,18 @@ class MyApp extends StatelessWidget {
     return GetBuilder<AppThemeController>(
       builder: (logic) => ScreenUtilInit(
         designSize: const Size(392, 744),
-        builder: (_) => NxOverlayWidget(
-          child: GetMaterialApp(
-            title: StringValues.appName,
-            debugShowCheckedModeBanner: false,
-            themeMode: logic.themeMode == StringValues.system
-                ? ThemeMode.system
-                : logic.themeMode == StringValues.dark
-                    ? ThemeMode.dark
-                    : ThemeMode.light,
-            theme: AppThemes.lightTheme,
-            darkTheme: AppThemes.darkTheme,
-            getPages: AppPages.pages,
-            initialRoute: isLogin ? AppRoutes.home : AppRoutes.login,
-          ),
+        builder: (_) => GetMaterialApp(
+          title: StringValues.appName,
+          debugShowCheckedModeBanner: false,
+          themeMode: logic.themeMode == StringValues.system
+              ? ThemeMode.system
+              : logic.themeMode == StringValues.dark
+                  ? ThemeMode.dark
+                  : ThemeMode.light,
+          theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
+          getPages: AppPages.pages,
+          initialRoute: isLogin ? AppRoutes.home : AppRoutes.login,
         ),
       ),
     );

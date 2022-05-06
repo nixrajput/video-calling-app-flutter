@@ -10,6 +10,7 @@ import 'package:video_calling_app/modules/auth/views/register_view.dart';
 import 'package:video_calling_app/modules/auth/views/reset_password_view.dart';
 import 'package:video_calling_app/modules/calling/bindings/calling_binding.dart';
 import 'package:video_calling_app/modules/calling/bindings/join_binding.dart';
+import 'package:video_calling_app/modules/calling/bindings/start_binding.dart';
 import 'package:video_calling_app/modules/calling/views/calling_view.dart';
 import 'package:video_calling_app/modules/calling/views/join_view.dart';
 import 'package:video_calling_app/modules/calling/views/start_view.dart';
@@ -76,6 +77,7 @@ abstract class AppPages {
     GetPage(
       name: _Routes.start,
       page: StartView.new,
+      binding: StartBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.downToUp,
     ),

@@ -191,7 +191,6 @@ class ChannelController extends GetxController {
     _addAgoraEventHandlers();
 
     await _rtcEngine.enableVideo();
-    await _rtcEngine.startPreview();
     await _rtcEngine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _rtcEngine.setClientRole(ClientRole.Broadcaster);
   }
@@ -226,7 +225,9 @@ class ChannelController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _channelId = Get.arguments ?? _auth.channelId;
+    _channelId = Get.arguments[0] ?? _auth.channelId;
+    _cameraToggle = Get.arguments[1] ?? true;
+    _micToggle = Get.arguments[2] ?? true;
     _init();
   }
 

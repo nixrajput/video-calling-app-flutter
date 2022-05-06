@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
 
 class NxOutlinedButton extends StatelessWidget {
@@ -48,7 +49,7 @@ class NxOutlinedButton extends StatelessWidget {
           primary: Colors.transparent,
           padding: padding ?? Dimens.edgeInsets8,
           side: BorderSide(
-            color: borderColor ?? Theme.of(context).iconTheme.color!,
+            color: borderColor ?? ColorValues.primaryColor,
             width: borderWidth ?? Dimens.one,
             style: borderStyle ?? BorderStyle.solid,
           ),
@@ -67,8 +68,7 @@ class NxOutlinedButton extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color:
-                    labelColor ?? Theme.of(context).textTheme.bodyText1!.color!,
+                color: labelColor ?? ColorValues.primaryColor,
                 fontSize: fontSize ?? Dimens.fourteen,
               ),
             ),
