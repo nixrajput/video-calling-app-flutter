@@ -83,19 +83,20 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         setLoginData = LoginResponse.fromJson(decodedData);
 
-        var _token = loginData.token!;
-        var _expiresAt = loginData.expiresAt!;
+        var token = loginData.token!;
+        var expiresAt = loginData.expiresAt!;
 
-        await AppUtils.saveLoginDataToLocalStorage(_token, _expiresAt);
+        await AppUtils.saveLoginDataToLocalStorage(token, expiresAt);
 
-        _auth.setAuthToken = _token;
-        _auth.setExpiresAt = _expiresAt;
+        _auth.setAuthToken = token;
+        _auth.setExpiresAt = expiresAt;
         _auth.autoLogout();
-        _clearLoginTextControllers();
 
         await AppUtils.saveChannelDataToLocalStorage();
         await _auth.getChannelInfo();
-        await _profileController.getProfileDetails();
+        await _profileController.fetchProfileDetails();
+
+        _clearLoginTextControllers();
 
         AppUtils.closeDialog();
         _isLoading.value = false;

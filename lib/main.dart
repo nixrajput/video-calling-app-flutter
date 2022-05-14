@@ -33,14 +33,17 @@ Future<void> initServices() async {
     ..put(ProfileController(), permanent: true);
 
   await Get.find<AuthService>().getToken().then((value) async {
-    isLogin = value.isEmpty ? false : true;
+    Get.find<AuthService>().autoLogout();
+    if (value.isNotEmpty) {
+      var hasData = await Get.find<ProfileController>().getProfileDetails();
+      if (hasData) {
+        await Get.find<AuthService>().getChannelInfo();
+        isLogin = true;
+      }
+    }
     isLogin
         ? AppUtils.printLog("User is logged in.")
         : AppUtils.printLog("User is not logged in.");
-    if (isLogin) {
-      await Get.find<ProfileController>().getProfileDetails();
-      await Get.find<AuthService>().getChannelInfo();
-    }
   });
 }
 
@@ -49,7 +52,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (SchedulerBinding.instance!.window.platformBrightness ==
+    if (SchedulerBinding.instance.window.platformBrightness ==
         Brightness.light) {
       SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(
@@ -78,11 +81,7 @@ class MyApp extends StatelessWidget {
         builder: (_) => GetMaterialApp(
           title: StringValues.appName,
           debugShowCheckedModeBanner: false,
-          themeMode: logic.themeMode == StringValues.system
-              ? ThemeMode.system
-              : logic.themeMode == StringValues.dark
-                  ? ThemeMode.dark
-                  : ThemeMode.light,
+          themeMode: _handleAppTheme(logic.themeMode),
           theme: AppThemes.lightTheme,
           darkTheme: AppThemes.darkTheme,
           getPages: AppPages.pages,
@@ -90,5 +89,15 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _handleAppTheme(mode) {
+    if (mode == StringValues.dark) {
+      return ThemeMode.dark;
+    }
+    if (mode == StringValues.light) {
+      return ThemeMode.light;
+    }
+    return ThemeMode.system;
   }
 }

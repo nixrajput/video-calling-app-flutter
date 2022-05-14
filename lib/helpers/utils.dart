@@ -198,11 +198,11 @@ abstract class AppUtils {
     }
   }
 
-  static Future<void> saveLoginDataToLocalStorage(_token, _expiresAt) async {
-    if (_token!.isNotEmpty && _expiresAt!.isNotEmpty) {
+  static Future<void> saveLoginDataToLocalStorage(token, expiresAt) async {
+    if (token!.isNotEmpty && expiresAt!.isNotEmpty) {
       final data = jsonEncode({
-        StringValues.token: _token,
-        StringValues.expiresAt: _expiresAt,
+        StringValues.token: token,
+        StringValues.expiresAt: expiresAt,
       });
 
       await storage.write(StringValues.loginData, data);
@@ -213,12 +213,12 @@ abstract class AppUtils {
   }
 
   static Future<void> saveChannelDataToLocalStorage() async {
-    var _channelId = randomNumeric(10);
-    var _agoraUid = randomIntNumeric(8).toUnsigned(32);
+    var channelId = randomNumeric(10);
+    var agoraUid = randomIntNumeric(8).toUnsigned(32);
 
     final data = jsonEncode({
-      StringValues.channelId: _channelId,
-      StringValues.agoraUid: _agoraUid,
+      StringValues.channelId: channelId,
+      StringValues.agoraUid: agoraUid,
     });
 
     await storage.write(StringValues.channelData, data);
@@ -247,8 +247,31 @@ abstract class AppUtils {
     return null;
   }
 
+  static Future<void> saveProfileDataToLocalStorage(response) async {
+    if (response != null) {
+      final data = jsonEncode(response);
+
+      await storage.write(StringValues.profileData, data);
+      printLog(StringValues.profileDetailsSaved);
+    } else {
+      printLog(StringValues.profileDetailsNotSaved);
+    }
+  }
+
+  static Future<dynamic> readProfileDataFromLocalStorage() async {
+    if (storage.hasData(StringValues.profileData)) {
+      final data = await storage.read(StringValues.profileData);
+      var decodedData = jsonDecode(data);
+      printLog(StringValues.profileDetailsFound);
+      return decodedData;
+    }
+    printLog(StringValues.profileDetailsNotFound);
+    return null;
+  }
+
   static Future<void> clearLoginDataFromLocalStorage() async {
     await storage.remove(StringValues.loginData);
+    await storage.remove(StringValues.profileData);
     await storage.remove(StringValues.channelData);
     printLog(StringValues.authDetailsRemoved);
   }
@@ -262,16 +285,16 @@ abstract class AppUtils {
   }
 
   static Future<dynamic> selectSingleImage({ImageSource? imageSource}) async {
-    final _imagePicker = ImagePicker();
-    final _imageCropper = ImageCropper();
-    final pickedImage = await _imagePicker.pickImage(
+    final imagePicker = ImagePicker();
+    final imageCropper = ImageCropper();
+    final pickedImage = await imagePicker.pickImage(
       maxWidth: 1920.0,
       maxHeight: 1920.0,
       source: imageSource ?? ImageSource.gallery,
     );
 
     if (pickedImage != null) {
-      var croppedFile = await _imageCropper.cropImage(
+      var croppedFile = await imageCropper.cropImage(
         maxWidth: 1920,
         maxHeight: 1920,
         sourcePath: pickedImage.path,

@@ -112,6 +112,12 @@ abstract class StringValues {
   static const channelDataNotFound = "Channel info not found.";
   static const start = "Start";
   static const join = "Join";
+  static const profileData = "profileData";
+  static const profileDetailsSaved = 'Profile details saved.';
+  static const profileDetailsNotSaved = "Profile details couldn't saved.";
+  static const profileDetailsFound = 'Profile details found.';
+  static const profileDetailsNotFound = 'Profile details not found.';
+  static const profileDetailsRemoved = 'Profile details removed.';
 
   static const String themeMode = 'themeMode';
   static const String system = 'System';

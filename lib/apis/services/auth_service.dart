@@ -32,15 +32,14 @@ class AuthService extends GetxService {
   set setAgoraUid(String value) => _agoraUid = value;
 
   Future<String> getToken() async {
-    var _token = '';
+    var token = '';
     final decodedData = await AppUtils.readLoginDataFromLocalStorage();
     if (decodedData != null) {
       _expiresAt = decodedData[StringValues.expiresAt];
       setAuthToken = decodedData[StringValues.token];
-      _token = decodedData[StringValues.token];
-      autoLogout();
+      token = decodedData[StringValues.token];
     }
-    return _token;
+    return token;
   }
 
   Future<void> getChannelInfo() async {
@@ -53,10 +52,13 @@ class AuthService extends GetxService {
 
   void autoLogout() async {
     if (_expiresAt.isNotEmpty) {
-      var _currentTimestamp =
+      var currentTimestamp =
           (DateTime.now().millisecondsSinceEpoch / 1000).round();
-      if (int.parse(_expiresAt) < _currentTimestamp) {
-        await _logout();
+      if (int.parse(_expiresAt) < currentTimestamp) {
+        // setAuthToken = '';
+        // setExpiresAt= '';
+        // await AppUtils.clearLoginDataFromLocalStorage();
+        AppUtils.printLog(StringValues.tokenError);
       }
     }
     // if (_profileData.value.user != null) {
@@ -73,6 +75,7 @@ class AuthService extends GetxService {
   Future<void> _logout() async {
     RouteManagement.goToLoginView();
     setAuthToken = '';
+    setExpiresAt = '';
     await AppUtils.clearLoginDataFromLocalStorage();
     AppUtils.showSnackBar(
       StringValues.logoutSuccessful,

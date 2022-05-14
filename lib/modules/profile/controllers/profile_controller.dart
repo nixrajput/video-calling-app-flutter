@@ -28,7 +28,20 @@ class ProfileController extends GetxController {
     _profileData.value = value;
   }
 
-  Future<void> _getProfileDetails() async {
+  Future<bool> _getProfileDetails() async {
+    AppUtils.printLog("Fetching Local Profile Details...");
+
+    final decodedData = await AppUtils.readProfileDataFromLocalStorage();
+    if (decodedData != null) {
+      setProfileData = ProfileResponse.fromJson(decodedData);
+      return true;
+    } else {
+      AppUtils.printLog(StringValues.profileDetailsNotFound);
+    }
+    return false;
+  }
+
+  Future<void> _fetchProfileDetails() async {
     _isLoading.value = true;
     update();
     AppUtils.printLog("Fetching Profile Details Request...");
@@ -39,6 +52,7 @@ class ProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         setProfileData = ProfileResponse.fromJson(decodedData);
+        await AppUtils.saveProfileDataToLocalStorage(decodedData);
         _isLoading.value = false;
         update();
       } else {
@@ -75,5 +89,6 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> getProfileDetails() async => await _getProfileDetails();
+  Future<bool> getProfileDetails() async => await _getProfileDetails();
+  Future<void> fetchProfileDetails() async => await _fetchProfileDetails();
 }
