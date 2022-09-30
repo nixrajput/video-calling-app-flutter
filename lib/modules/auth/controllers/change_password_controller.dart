@@ -8,7 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:video_calling_app/apis/providers/api_provider.dart';
 import 'package:video_calling_app/apis/services/auth_service.dart';
 import 'package:video_calling_app/constants/strings.dart';
-import 'package:video_calling_app/helpers/utils.dart';
+import 'package:video_calling_app/helpers/utility.dart';
+import 'package:video_calling_app/routes/route_management.dart';
 
 class ChangePasswordController extends GetxController {
   static ChangePasswordController get find => Get.find();
@@ -49,21 +50,21 @@ class ChangePasswordController extends GetxController {
     String confPassword,
   ) async {
     if (oldPassword.isEmpty) {
-      AppUtils.showSnackBar(
+      AppUtility.showSnackBar(
         StringValues.enterOldPassword,
         StringValues.warning,
       );
       return;
     }
     if (newPassword.isEmpty) {
-      AppUtils.showSnackBar(
+      AppUtility.showSnackBar(
         StringValues.enterNewPassword,
         StringValues.warning,
       );
       return;
     }
     if (confPassword.isEmpty) {
-      AppUtils.showSnackBar(
+      AppUtility.showSnackBar(
         StringValues.enterConfirmPassword,
         StringValues.warning,
       );
@@ -76,62 +77,67 @@ class ChangePasswordController extends GetxController {
       'confirmPassword': confPassword,
     };
 
-    AppUtils.printLog("Change Password Request...");
-    AppUtils.showLoadingDialog();
+    AppUtility.printLog("Change Password Request...");
+    AppUtility.showLoadingDialog();
     _isLoading.value = true;
     update();
 
     try {
-      final response = await _apiProvider.changePassword(body, _auth.authToken);
+      final response = await _apiProvider.changePassword(_auth.authToken, body);
 
       final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
 
       if (response.statusCode == 200) {
         await _auth.logout();
-        AppUtils.closeDialog();
+        AppUtility.closeDialog();
         _isLoading.value = false;
         update();
+        RouteManagement.goToBack();
+        AppUtility.showSnackBar(
+          decodedData[StringValues.message],
+          StringValues.success,
+        );
       } else {
-        AppUtils.closeDialog();
+        AppUtility.closeDialog();
         _isLoading.value = false;
         update();
-        AppUtils.showSnackBar(
+        AppUtility.showSnackBar(
           decodedData[StringValues.message],
           StringValues.error,
         );
       }
     } on SocketException {
-      AppUtils.closeDialog();
+      AppUtility.closeDialog();
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.internetConnError);
-      AppUtils.showSnackBar(StringValues.internetConnError, StringValues.error);
+      AppUtility.printLog(StringValues.internetConnError);
+      AppUtility.showSnackBar(
+          StringValues.internetConnError, StringValues.error);
     } on TimeoutException {
-      AppUtils.closeDialog();
+      AppUtility.closeDialog();
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.connTimedOut);
-      AppUtils.printLog(StringValues.connTimedOut);
-      AppUtils.showSnackBar(StringValues.connTimedOut, StringValues.error);
+      AppUtility.printLog(StringValues.connTimedOut);
+      AppUtility.showSnackBar(StringValues.connTimedOut, StringValues.error);
     } on FormatException catch (e) {
-      AppUtils.closeDialog();
+      AppUtility.closeDialog();
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.formatExcError);
-      AppUtils.printLog(e);
-      AppUtils.showSnackBar(StringValues.errorOccurred, StringValues.error);
+      AppUtility.printLog(StringValues.formatExcError);
+      AppUtility.printLog(e);
+      AppUtility.showSnackBar(StringValues.errorOccurred, StringValues.error);
     } catch (exc) {
-      AppUtils.closeDialog();
+      AppUtility.closeDialog();
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.errorOccurred);
-      AppUtils.printLog(exc);
-      AppUtils.showSnackBar(StringValues.errorOccurred, StringValues.error);
+      AppUtility.printLog(StringValues.errorOccurred);
+      AppUtility.printLog(exc);
+      AppUtility.showSnackBar(StringValues.errorOccurred, StringValues.error);
     }
   }
 
   Future<void> changePassword() async {
-    AppUtils.closeFocus();
+    AppUtility.closeFocus();
     await _changePassword(
       oldPasswordTextController.text.trim(),
       newPasswordTextController.text.trim(),

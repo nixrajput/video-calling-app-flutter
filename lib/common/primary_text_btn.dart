@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
+import 'package:video_calling_app/constants/styles.dart';
 
 class NxTextButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
-  final double? fontSize;
-  final Color? textColor;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
+  final TextStyle? labelStyle;
 
   const NxTextButton({
     Key? key,
     required this.label,
     required this.onTap,
-    this.textColor,
     this.padding,
     this.margin,
-    this.fontSize,
+    this.labelStyle,
   }) : super(key: key);
 
   @override
@@ -29,11 +28,10 @@ class NxTextButton extends StatelessWidget {
         margin: margin ?? Dimens.edgeInsets0,
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: fontSize ?? Dimens.sixTeen,
-            fontWeight: FontWeight.bold,
-            color: textColor ?? ColorValues.primaryColor,
-          ),
+          style: labelStyle ??
+              AppStyles.style16Bold.copyWith(
+                color: ColorValues.primaryLightColor,
+              ),
         ),
       ),
     );

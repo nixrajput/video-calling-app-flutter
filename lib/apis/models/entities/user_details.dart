@@ -1,8 +1,10 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:video_calling_app/apis/models/entities/user_avatar.dart';
 
 part 'user_details.g.dart';
 
+@CopyWith()
 @JsonSerializable()
 class UserDetails {
   UserDetails({
@@ -15,12 +17,20 @@ class UserDetails {
     this.gender,
     this.dob,
     this.about,
-    required this.profession,
-    required this.role,
-    required this.accountType,
+    this.website,
+    this.profession,
+    required this.followersCount,
+    required this.followingCount,
+    required this.followingStatus,
+    required this.postsCount,
     required this.accountStatus,
+    required this.isPrivate,
+    required this.isValid,
     required this.isVerified,
+    required this.role,
+    this.deviceId,
     required this.createdAt,
+    required this.updatedAt,
   });
 
   factory UserDetails.fromJson(Map<String, dynamic> json) =>
@@ -29,47 +39,71 @@ class UserDetails {
   Map<String, dynamic> toJson() => _$UserDetailsToJson(this);
 
   @JsonKey(name: '_id')
-  String id;
+  final String id;
 
   @JsonKey(name: 'fname')
-  String fname;
+  final String fname;
 
   @JsonKey(name: 'lname')
-  String lname;
+  final String lname;
 
   @JsonKey(name: 'email')
-  String email;
+  final String email;
 
   @JsonKey(name: 'uname')
-  String uname;
+  final String uname;
 
   @JsonKey(name: 'avatar')
-  UserAvatar? avatar;
+  final UserAvatar? avatar;
 
   @JsonKey(name: 'gender')
-  String? gender;
+  final String? gender;
 
   @JsonKey(name: 'dob')
-  String? dob;
+  final String? dob;
 
   @JsonKey(name: 'about')
-  String? about;
+  final String? about;
 
   @JsonKey(name: 'profession')
-  String profession;
+  final String? profession;
 
-  @JsonKey(name: 'role')
-  String role;
+  @JsonKey(name: 'website')
+  final String? website;
 
-  @JsonKey(name: 'accountType')
-  String accountType;
+  @JsonKey(name: 'postsCount')
+  int postsCount;
+
+  @JsonKey(name: 'followersCount')
+  int followersCount;
+
+  @JsonKey(name: 'followingCount')
+  int followingCount;
+
+  @JsonKey(name: 'followingStatus')
+  String followingStatus;
 
   @JsonKey(name: 'accountStatus')
-  String accountStatus;
+  final String accountStatus;
+
+  @JsonKey(name: 'isPrivate')
+  bool isPrivate;
+
+  @JsonKey(name: 'isValid')
+  final bool isValid;
 
   @JsonKey(name: 'isVerified')
-  bool isVerified;
+  final bool isVerified;
+
+  @JsonKey(name: 'role')
+  final String role;
+
+  @JsonKey(name: 'deviceId')
+  String? deviceId;
 
   @JsonKey(name: 'createdAt')
-  DateTime createdAt;
+  final DateTime createdAt;
+
+  @JsonKey(name: 'updatedAt')
+  final DateTime updatedAt;
 }

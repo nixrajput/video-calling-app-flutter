@@ -12,12 +12,14 @@ class NxAppBar extends StatelessWidget {
     this.showDivider = false,
     this.leading,
     this.showBackBtn = true,
+    this.padding,
   }) : super(key: key);
 
   final String? title;
   final bool? showDivider;
   final Widget? leading;
   final bool? showBackBtn;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class NxAppBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: Dimens.edgeInsets8,
+            padding: padding ?? Dimens.edgeInsets8,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,

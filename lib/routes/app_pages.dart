@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:video_calling_app/modules/app_update/app_update_view.dart';
+import 'package:video_calling_app/modules/auth/bindings/account_verification_binding.dart';
 import 'package:video_calling_app/modules/auth/bindings/change_password_binding.dart';
 import 'package:video_calling_app/modules/auth/bindings/login_binding.dart';
 import 'package:video_calling_app/modules/auth/bindings/password_binding.dart';
@@ -8,6 +10,8 @@ import 'package:video_calling_app/modules/auth/views/forgot_password_view.dart';
 import 'package:video_calling_app/modules/auth/views/login_view.dart';
 import 'package:video_calling_app/modules/auth/views/register_view.dart';
 import 'package:video_calling_app/modules/auth/views/reset_password_view.dart';
+import 'package:video_calling_app/modules/auth/views/send_account_verification_otp_view.dart';
+import 'package:video_calling_app/modules/auth/views/verify_account_view.dart';
 import 'package:video_calling_app/modules/calling/bindings/calling_binding.dart';
 import 'package:video_calling_app/modules/calling/bindings/join_binding.dart';
 import 'package:video_calling_app/modules/calling/bindings/start_binding.dart';
@@ -16,6 +20,7 @@ import 'package:video_calling_app/modules/calling/views/join_view.dart';
 import 'package:video_calling_app/modules/calling/views/start_view.dart';
 import 'package:video_calling_app/modules/home/bindings/home_binding.dart';
 import 'package:video_calling_app/modules/home/views/home_view.dart';
+import 'package:video_calling_app/modules/maintenance/server_maintenance_view.dart';
 import 'package:video_calling_app/modules/profile/bindings/profile_binding.dart';
 import 'package:video_calling_app/modules/profile/views/profile_view.dart';
 
@@ -25,6 +30,12 @@ abstract class AppPages {
   static var transitionDuration = const Duration(milliseconds: 200);
 
   static final pages = [
+    GetPage(
+      name: _Routes.maintenance,
+      page: ServerMaintenanceView.new,
+      transitionDuration: transitionDuration,
+      transition: Transition.downToUp,
+    ),
     GetPage(
       name: _Routes.login,
       page: LoginView.new,
@@ -67,6 +78,23 @@ abstract class AppPages {
       binding: ChangePasswordBinding(),
       transition: Transition.downToUp,
     ),
+
+    /// Send Verify Account Otp
+    GetPage(
+      name: _Routes.sendVerifyAccountOtp,
+      page: SendAccountVerificationOtpView.new,
+      transitionDuration: transitionDuration,
+      binding: AccountVerificationBinding(),
+      transition: Transition.downToUp,
+    ),
+
+    /// Verify Account
+    GetPage(
+      name: _Routes.verifyAccount,
+      page: VerifyAccountView.new,
+      transitionDuration: transitionDuration,
+      transition: Transition.downToUp,
+    ),
     GetPage(
       name: _Routes.calling,
       page: CallingView.new,
@@ -92,6 +120,12 @@ abstract class AppPages {
       name: _Routes.profile,
       page: ProfileView.new,
       binding: ProfileBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Routes.appUpdate,
+      page: AppUpdateView.new,
       transitionDuration: transitionDuration,
       transition: Transition.downToUp,
     ),

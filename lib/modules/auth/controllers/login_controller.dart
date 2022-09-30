@@ -9,7 +9,7 @@ import 'package:video_calling_app/apis/models/responses/login_response.dart';
 import 'package:video_calling_app/apis/providers/api_provider.dart';
 import 'package:video_calling_app/apis/services/auth_service.dart';
 import 'package:video_calling_app/constants/strings.dart';
-import 'package:video_calling_app/helpers/utils.dart';
+import 'package:video_calling_app/helpers/utility.dart';
 import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
 import 'package:video_calling_app/routes/route_management.dart';
 
@@ -21,15 +21,18 @@ class LoginController extends GetxController {
 
   final _apiProvider = ApiProvider(http.Client());
 
-  final emailTextController = TextEditingController();
+  final emailUnameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
   final FocusScopeNode focusNode = FocusScopeNode();
   final _showPassword = true.obs;
+  final _accountStatus = ''.obs;
   final _loginData = LoginResponse().obs;
   final _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;
+
+  String get accountStatus => _accountStatus.value;
 
   bool get showPassword => _showPassword.value;
 
@@ -40,7 +43,7 @@ class LoginController extends GetxController {
   LoginResponse get loginData => _loginData.value;
 
   void _clearLoginTextControllers() {
-    emailTextController.clear();
+    emailUnameTextController.clear();
     passwordTextController.clear();
   }
 
@@ -49,16 +52,16 @@ class LoginController extends GetxController {
     update();
   }
 
-  Future<void> _login(String email, String password) async {
-    if (email.isEmpty) {
-      AppUtils.showSnackBar(
+  Future<void> _login(String emailUname, String password) async {
+    if (emailUname.isEmpty) {
+      AppUtility.showSnackBar(
         StringValues.enterEmail,
         StringValues.warning,
       );
       return;
     }
     if (password.isEmpty) {
-      AppUtils.showSnackBar(
+      AppUtility.showSnackBar(
         StringValues.enterPassword,
         StringValues.warning,
       );
@@ -66,12 +69,12 @@ class LoginController extends GetxController {
     }
 
     final body = {
-      'email': email,
+      'emailUname': emailUname,
       'password': password,
     };
 
-    AppUtils.printLog("User Login Request...");
-    AppUtils.showLoadingDialog();
+    AppUtility.printLog("User Login Request...");
+    AppUtility.showLoadingDialog();
     _isLoading.value = true;
     update();
 
@@ -86,69 +89,70 @@ class LoginController extends GetxController {
         var token = loginData.token!;
         var expiresAt = loginData.expiresAt!;
 
-        await AppUtils.saveLoginDataToLocalStorage(token, expiresAt);
+        await AppUtility.saveLoginDataToLocalStorage(token, expiresAt);
 
         _auth.setAuthToken = token;
         _auth.setExpiresAt = expiresAt;
         _auth.autoLogout();
 
-        await AppUtils.saveChannelDataToLocalStorage();
+        await AppUtility.saveChannelDataToLocalStorage();
         await _auth.getChannelInfo();
         await _profileController.fetchProfileDetails();
 
         _clearLoginTextControllers();
 
-        AppUtils.closeDialog();
+        AppUtility.closeDialog();
         _isLoading.value = false;
         update();
         RouteManagement.goToHomeView();
-        AppUtils.showSnackBar(
+        AppUtility.showSnackBar(
           StringValues.loginSuccessful,
           StringValues.success,
         );
       } else {
-        AppUtils.closeDialog();
+        AppUtility.closeDialog();
+        _accountStatus.value = decodedData['accountStatus'];
         _isLoading.value = false;
         update();
-        AppUtils.showSnackBar(
+        AppUtility.showSnackBar(
           decodedData[StringValues.message],
           StringValues.error,
         );
       }
     } on SocketException {
-      AppUtils.closeDialog();
+      AppUtility.closeDialog();
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.internetConnError);
-      AppUtils.showSnackBar(StringValues.internetConnError, StringValues.error);
+      AppUtility.printLog(StringValues.internetConnError);
+      AppUtility.showSnackBar(
+          StringValues.internetConnError, StringValues.error);
     } on TimeoutException {
-      AppUtils.closeDialog();
+      AppUtility.closeDialog();
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.connTimedOut);
-      AppUtils.printLog(StringValues.connTimedOut);
-      AppUtils.showSnackBar(StringValues.connTimedOut, StringValues.error);
+      AppUtility.printLog(StringValues.connTimedOut);
+      AppUtility.showSnackBar(StringValues.connTimedOut, StringValues.error);
     } on FormatException catch (e) {
-      AppUtils.closeDialog();
+      AppUtility.closeDialog();
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.formatExcError);
-      AppUtils.printLog(e);
-      AppUtils.showSnackBar(StringValues.errorOccurred, StringValues.error);
+      AppUtility.printLog(StringValues.formatExcError);
+      AppUtility.printLog(e);
+      AppUtility.showSnackBar(StringValues.errorOccurred, StringValues.error);
     } catch (exc) {
-      AppUtils.closeDialog();
+      AppUtility.closeDialog();
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.errorOccurred);
-      AppUtils.printLog(exc);
-      AppUtils.showSnackBar(StringValues.errorOccurred, StringValues.error);
+      AppUtility.printLog(StringValues.errorOccurred);
+      AppUtility.printLog(exc);
+      AppUtility.showSnackBar(StringValues.errorOccurred, StringValues.error);
     }
   }
 
   Future<void> login() async {
-    AppUtils.closeFocus();
+    AppUtility.closeFocus();
     await _login(
-      emailTextController.text.trim(),
+      emailUnameTextController.text.trim(),
       passwordTextController.text.trim(),
     );
   }

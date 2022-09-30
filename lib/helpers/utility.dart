@@ -19,7 +19,7 @@ const asciiEnd = 126;
 const numericStart = 48;
 const numericEnd = 57;
 
-abstract class AppUtils {
+abstract class AppUtility {
   static final storage = GetStorage();
 
   static void showLoadingDialog() {
@@ -43,6 +43,15 @@ abstract class AppUtils {
       barrierDismissible: false,
     );
   }
+
+  static buildAppLogo({double? fontSize, bool? isCentered = false}) => Text(
+        StringValues.appName.toUpperCase(),
+        style: AppStyles.style24Bold.copyWith(
+          fontSize: fontSize,
+          letterSpacing: Dimens.four,
+        ),
+        textAlign: isCentered == true ? TextAlign.center : TextAlign.start,
+      );
 
   static void showError(String message) {
     closeSnackBar();

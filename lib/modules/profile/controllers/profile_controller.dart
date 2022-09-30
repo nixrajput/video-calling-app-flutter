@@ -8,7 +8,7 @@ import 'package:video_calling_app/apis/models/responses/profile_response.dart';
 import 'package:video_calling_app/apis/providers/api_provider.dart';
 import 'package:video_calling_app/apis/services/auth_service.dart';
 import 'package:video_calling_app/constants/strings.dart';
-import 'package:video_calling_app/helpers/utils.dart';
+import 'package:video_calling_app/helpers/utility.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get find => Get.find();
@@ -29,14 +29,14 @@ class ProfileController extends GetxController {
   }
 
   Future<bool> _getProfileDetails() async {
-    AppUtils.printLog("Fetching Local Profile Details...");
+    AppUtility.printLog("Fetching Local Profile Details...");
 
-    final decodedData = await AppUtils.readProfileDataFromLocalStorage();
+    final decodedData = await AppUtility.readProfileDataFromLocalStorage();
     if (decodedData != null) {
       setProfileData = ProfileResponse.fromJson(decodedData);
       return true;
     } else {
-      AppUtils.printLog(StringValues.profileDetailsNotFound);
+      AppUtility.printLog(StringValues.profileDetailsNotFound);
     }
     return false;
   }
@@ -44,7 +44,7 @@ class ProfileController extends GetxController {
   Future<void> _fetchProfileDetails() async {
     _isLoading.value = true;
     update();
-    AppUtils.printLog("Fetching Profile Details Request...");
+    AppUtility.printLog("Fetching Profile Details Request...");
     try {
       final response = await _apiProvider.getProfileDetails(_auth.authToken);
 
@@ -52,13 +52,13 @@ class ProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         setProfileData = ProfileResponse.fromJson(decodedData);
-        await AppUtils.saveProfileDataToLocalStorage(decodedData);
+        await AppUtility.saveProfileDataToLocalStorage(decodedData);
         _isLoading.value = false;
         update();
       } else {
         _isLoading.value = false;
         update();
-        AppUtils.showSnackBar(
+        AppUtility.showSnackBar(
           decodedData[StringValues.message],
           StringValues.error,
         );
@@ -66,29 +66,31 @@ class ProfileController extends GetxController {
     } on SocketException {
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.internetConnError);
-      AppUtils.showSnackBar(StringValues.internetConnError, StringValues.error);
+      AppUtility.printLog(StringValues.internetConnError);
+      AppUtility.showSnackBar(
+          StringValues.internetConnError, StringValues.error);
     } on TimeoutException {
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.connTimedOut);
-      AppUtils.printLog(StringValues.connTimedOut);
-      AppUtils.showSnackBar(StringValues.connTimedOut, StringValues.error);
+      AppUtility.printLog(StringValues.connTimedOut);
+      AppUtility.printLog(StringValues.connTimedOut);
+      AppUtility.showSnackBar(StringValues.connTimedOut, StringValues.error);
     } on FormatException catch (e) {
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.formatExcError);
-      AppUtils.printLog(e);
-      AppUtils.showSnackBar(StringValues.errorOccurred, StringValues.error);
+      AppUtility.printLog(StringValues.formatExcError);
+      AppUtility.printLog(e);
+      AppUtility.showSnackBar(StringValues.errorOccurred, StringValues.error);
     } catch (exc) {
       _isLoading.value = false;
       update();
-      AppUtils.printLog(StringValues.errorOccurred);
-      AppUtils.printLog(exc);
-      AppUtils.showSnackBar(StringValues.errorOccurred, StringValues.error);
+      AppUtility.printLog(StringValues.errorOccurred);
+      AppUtility.printLog(exc);
+      AppUtility.showSnackBar(StringValues.errorOccurred, StringValues.error);
     }
   }
 
   Future<bool> getProfileDetails() async => await _getProfileDetails();
+
   Future<void> fetchProfileDetails() async => await _fetchProfileDetails();
 }

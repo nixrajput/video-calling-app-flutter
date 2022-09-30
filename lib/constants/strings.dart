@@ -123,6 +123,16 @@ abstract class StringValues {
   static const String system = 'System';
   static const String light = 'Light';
   static const String dark = 'Dark';
+  static const appUpdateAvailable = 'App update available';
+  static const verifyYourAccount = 'Verify your account';
+  static const verifyAccount = 'Verify Account';
+  static const loginToAccount = 'Login To Account';
+  static const resendOtp = 'Resend OTP';
+  static const enterEmailForOtp =
+      'Enter your email address and an OTP will be sent to your email address if account exists';
+  static const enterOtpYouGet =
+      'An OTP has been sent to your email address, please enter OTP to proceed';
+  static const sendOtp = 'Send OTP';
 }
 
 abstract class AssetValues {

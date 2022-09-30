@@ -11,7 +11,7 @@ import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/constants/styles.dart';
-import 'package:video_calling_app/helpers/utils.dart';
+import 'package:video_calling_app/helpers/utility.dart';
 import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
 import 'package:video_calling_app/routes/route_management.dart';
 
@@ -75,7 +75,7 @@ class HomeView extends StatelessWidget {
                       ),
                       Dimens.boxHeight8,
                       Text(
-                        AppUtils.formatMeetingId(
+                        AppUtility.formatMeetingId(
                             Get.find<AuthService>().channelId.toString()),
                         style: AppStyles.style24Bold,
                         textAlign: TextAlign.center,

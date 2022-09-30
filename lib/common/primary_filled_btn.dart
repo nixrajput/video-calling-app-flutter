@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
+import 'package:video_calling_app/constants/styles.dart';
 
 class NxFilledButton extends StatelessWidget {
   const NxFilledButton({
@@ -16,6 +16,7 @@ class NxFilledButton extends StatelessWidget {
     this.fontSize,
     this.width,
     this.height,
+    this.labelStyle,
   }) : super(key: key);
 
   final Color? bgColor;
@@ -29,39 +30,38 @@ class NxFilledButton extends StatelessWidget {
   final double? fontSize;
   final double? width;
   final double? height;
+  final TextStyle? labelStyle;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height ?? Dimens.fiftyFour,
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          elevation: Dimens.zero,
-          padding: padding ?? Dimens.edgeInsets8,
-          primary: bgColor ?? ColorValues.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              borderRadius ?? Dimens.four,
-            ),
-          ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: width,
+        height: height ?? Dimens.fiftySix,
+        padding: padding,
+        constraints: BoxConstraints(maxWidth: Dimens.screenWidth),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius ?? Dimens.eight),
+          color: bgColor ?? Theme.of(context).textTheme.bodyText1!.color,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (prefix != null) Container(child: prefix),
+            if (prefix != null) prefix!,
             if (prefix != null) Dimens.boxWidth4,
             Text(
               label,
-              style: TextStyle(
-                color: labelColor ?? ColorValues.whiteColor,
-                fontSize: fontSize ?? Dimens.fourteen,
-              ),
+              style: labelStyle ??
+                  AppStyles.style16Bold.copyWith(
+                    color:
+                        labelColor ?? Theme.of(context).scaffoldBackgroundColor,
+                    fontSize: fontSize ?? Dimens.sixTeen,
+                  ),
             ),
             if (suffix != null) Dimens.boxWidth4,
-            if (suffix != null) Container(child: suffix),
+            if (suffix != null) suffix!,
           ],
         ),
       ),

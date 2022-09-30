@@ -92,7 +92,7 @@ class LoginView extends StatelessWidget {
                                 .bodyText1!
                                 .color,
                           ),
-                          controller: logic.emailTextController,
+                          controller: logic.emailUnameTextController,
                           onEditingComplete: logic.focusNode.nextFocus,
                         ),
                         Dimens.boxHeight24,
@@ -128,6 +128,11 @@ class LoginView extends StatelessWidget {
                         const NxTextButton(
                           label: StringValues.forgotPassword,
                           onTap: RouteManagement.goToForgotPasswordView,
+                        ),
+                        Dimens.boxHeight16,
+                        const NxTextButton(
+                          label: StringValues.verifyAccount,
+                          onTap: RouteManagement.goToSendVerifyAccountOtpView,
                         ),
                         Dimens.boxHeight16,
                         Row(

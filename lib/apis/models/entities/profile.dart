@@ -1,9 +1,10 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:video_calling_app/apis/models/entities/phone.dart';
 import 'package:video_calling_app/apis/models/entities/user_avatar.dart';
 
 part 'profile.g.dart';
 
+@CopyWith()
 @JsonSerializable()
 class Profile {
   Profile({
@@ -11,24 +12,29 @@ class Profile {
     required this.fname,
     required this.lname,
     required this.email,
+    required this.emailVerified,
     required this.uname,
     this.avatar,
     this.phone,
+    this.countryCode,
+    this.phoneVerified,
     this.gender,
     this.dob,
     this.about,
     this.profession,
+    this.location,
+    this.website,
+    required this.postsCount,
+    required this.followersCount,
+    required this.followingCount,
     required this.role,
-    required this.accountType,
+    required this.isPrivate,
     required this.accountStatus,
+    required this.verificationStatus,
+    required this.isValid,
     required this.isVerified,
-    this.token,
-    this.expiresAt,
-    this.otp,
-    this.resetPasswordToken,
-    this.resetPasswordExpire,
-    this.lastActive,
     required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
@@ -48,6 +54,9 @@ class Profile {
   @JsonKey(name: 'email')
   String email;
 
+  @JsonKey(name: 'emailVerified')
+  bool emailVerified;
+
   @JsonKey(name: 'uname')
   String uname;
 
@@ -55,7 +64,13 @@ class Profile {
   UserAvatar? avatar;
 
   @JsonKey(name: 'phone')
-  Phone? phone;
+  String? phone;
+
+  @JsonKey(name: 'countryCode')
+  String? countryCode;
+
+  @JsonKey(name: 'phoneVerified')
+  bool? phoneVerified;
 
   @JsonKey(name: 'gender')
   String? gender;
@@ -69,36 +84,42 @@ class Profile {
   @JsonKey(name: 'profession')
   String? profession;
 
-  @JsonKey(name: 'role')
-  String role;
+  @JsonKey(name: 'location')
+  String? location;
 
-  @JsonKey(name: 'accountType')
-  String accountType;
+  @JsonKey(name: 'website')
+  String? website;
+
+  @JsonKey(name: 'postsCount')
+  int postsCount;
+
+  @JsonKey(name: 'followersCount')
+  int followersCount;
+
+  @JsonKey(name: 'followingCount')
+  int followingCount;
 
   @JsonKey(name: 'accountStatus')
   String accountStatus;
 
+  @JsonKey(name: 'isPrivate')
+  bool isPrivate;
+
+  @JsonKey(name: 'isValid')
+  bool isValid;
+
   @JsonKey(name: 'isVerified')
   bool isVerified;
 
-  @JsonKey(name: 'token')
-  String? token;
+  @JsonKey(name: 'verificationStatus')
+  String verificationStatus;
 
-  @JsonKey(name: 'expiresAt')
-  String? expiresAt;
-
-  @JsonKey(name: 'otp')
-  String? otp;
-
-  @JsonKey(name: 'resetPasswordToken')
-  String? resetPasswordToken;
-
-  @JsonKey(name: 'resetPasswordExpire')
-  String? resetPasswordExpire;
-
-  @JsonKey(name: 'lastActive')
-  DateTime? lastActive;
+  @JsonKey(name: 'role')
+  String role;
 
   @JsonKey(name: 'createdAt')
   DateTime createdAt;
+
+  @JsonKey(name: 'updatedAt')
+  final DateTime updatedAt;
 }

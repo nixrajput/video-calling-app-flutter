@@ -6,6 +6,10 @@ abstract class RouteManagement {
     Get.offAllNamed(AppRoutes.login);
   }
 
+  static void goToServerMaintenanceView() {
+    Get.offAllNamed(AppRoutes.maintenance);
+  }
+
   static void goToSplashView() {
     Get.offAllNamed(AppRoutes.splash);
   }
@@ -23,7 +27,15 @@ abstract class RouteManagement {
   }
 
   static void goToResetPasswordView() {
-    Get.offAndToNamed(AppRoutes.resetPassword);
+    Get.toNamed(AppRoutes.resetPassword);
+  }
+
+  static void goToSendVerifyAccountOtpView() {
+    Get.toNamed(AppRoutes.sendVerifyAccountOtp);
+  }
+
+  static void goToVerifyAccountView() {
+    Get.toNamed(AppRoutes.verifyAccount);
   }
 
   static void goToHomeView() {
@@ -54,6 +66,10 @@ abstract class RouteManagement {
 
   static void goToProfileView() {
     Get.toNamed(AppRoutes.profile);
+  }
+
+  static void goToAppUpdateView() {
+    Get.offAllNamed(AppRoutes.appUpdate);
   }
 
   static void goToBack() {

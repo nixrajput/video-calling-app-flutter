@@ -32,6 +32,7 @@
 /build/
 
 /lib/constants/secrets.dart
+/lib/constants/urls.dart
 
 # Web related
 lib/generated_plugin_registrant.dart

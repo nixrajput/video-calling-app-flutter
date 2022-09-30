@@ -1,101 +1,190 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:video_calling_app/apis/providers/api_provider.dart';
 import 'package:video_calling_app/constants/strings.dart';
-import 'package:video_calling_app/helpers/utils.dart';
-import 'package:video_calling_app/routes/route_management.dart';
+import 'package:video_calling_app/helpers/utility.dart';
 
 class AuthService extends GetxService {
   static AuthService get find => Get.find();
 
+  final _apiProvider = ApiProvider(http.Client());
+
   String _authToken = '';
-  String _expiresAt = '';
-  String _channelId = '';
+  int _expiresAt = 0;
+  int _deviceId = 0;
+  int _channelId = 0;
   String _agoraUid = '';
   StreamSubscription<dynamic>? _streamSubscription;
 
   String get authToken => _authToken;
 
-  String get expiresAt => _expiresAt;
+  int get expiresAt => _expiresAt;
 
-  String get channelId => _channelId;
+  int get channelId => _channelId;
 
   String get agoraUid => _agoraUid;
 
   set setAuthToken(String value) => _authToken = value;
 
-  set setExpiresAt(String value) => _expiresAt = value;
+  set setExpiresAt(int value) => _expiresAt = value;
 
-  set setChannelId(String value) => _channelId = value;
+  set setChannelId(int value) => _channelId = value;
 
   set setAgoraUid(String value) => _agoraUid = value;
 
   Future<String> getToken() async {
     var token = '';
-    final decodedData = await AppUtils.readLoginDataFromLocalStorage();
+    final decodedData = await AppUtility.readLoginDataFromLocalStorage();
     if (decodedData != null) {
       _expiresAt = decodedData[StringValues.expiresAt];
       setAuthToken = decodedData[StringValues.token];
       token = decodedData[StringValues.token];
+      await getDeviceId();
     }
     return token;
   }
 
   Future<void> getChannelInfo() async {
-    final decodedData = await AppUtils.readChannelDataFromLocalStorage();
+    final decodedData = await AppUtility.readChannelDataFromLocalStorage();
     if (decodedData != null) {
-      setChannelId = decodedData[StringValues.channelId].toString();
+      setChannelId = decodedData[StringValues.channelId];
       setAgoraUid = decodedData[StringValues.agoraUid].toString();
     }
   }
 
+  String generateDeviceId() {
+    const chars = '1234567890';
+    var rnd = Random();
+
+    var devId = String.fromCharCodes(
+      Iterable.generate(
+        16,
+        (_) => chars.codeUnitAt(rnd.nextInt(chars.length)),
+      ),
+    );
+
+    return devId;
+  }
+
+  Future<void> getDeviceId() async {
+    final devData = GetStorage();
+
+    var savedDevId = devData.read('deviceId');
+
+    try {
+      _deviceId = int.parse(savedDevId);
+    } catch (err) {
+      var devId = generateDeviceId();
+      await devData.write('deviceId', devId);
+      var savedDevId = devData.read('deviceId');
+      _deviceId = int.parse(savedDevId);
+    }
+
+    final response = await _apiProvider.saveDeviceId(
+      authToken,
+      {'deviceId': _deviceId.toString()},
+    );
+
+    final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
+
+    if (response.statusCode == 200) {
+      AppUtility.printLog(decodedData[StringValues.message]);
+    } else {
+      AppUtility.printLog(decodedData[StringValues.message]);
+    }
+
+    AppUtility.printLog("deviceId: $_deviceId");
+  }
+
+  Future<String> _checkServerHealth() async {
+    AppUtility.printLog('Check Server Health Request');
+    var serverHealth = 'offline';
+    try {
+      final response = await _apiProvider.checkServerHealth();
+
+      final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
+      AppUtility.printLog(decodedData);
+      if (response.statusCode == 200) {
+        AppUtility.printLog('Check Server Health Success');
+        serverHealth = decodedData['server'];
+      } else {
+        AppUtility.printLog('Check Server Health Error');
+        serverHealth = decodedData['server'];
+      }
+    } catch (exc) {
+      AppUtility.printLog('Check Server Health Error');
+      AppUtility.printLog(StringValues.errorOccurred);
+      AppUtility.printLog(exc);
+    }
+
+    return serverHealth;
+  }
+
+  Future<bool> _validateToken(String token) async {
+    var isValid = false;
+    try {
+      final response = await _apiProvider.validateToken(token);
+
+      final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
+      AppUtility.printLog(decodedData);
+      if (response.statusCode == 200) {
+        isValid = true;
+        AppUtility.printLog(decodedData[StringValues.message]);
+      } else {
+        AppUtility.printLog(decodedData[StringValues.message]);
+      }
+    } catch (exc) {
+      AppUtility.printLog(StringValues.errorOccurred);
+      AppUtility.printLog(exc);
+    }
+
+    return isValid;
+  }
+
   void autoLogout() async {
-    if (_expiresAt.isNotEmpty) {
+    if (_expiresAt > 0) {
       var currentTimestamp =
           (DateTime.now().millisecondsSinceEpoch / 1000).round();
-      if (int.parse(_expiresAt) < currentTimestamp) {
-        // setAuthToken = '';
-        // setExpiresAt= '';
-        // await AppUtils.clearLoginDataFromLocalStorage();
-        AppUtils.printLog(StringValues.tokenError);
+      if (_expiresAt < currentTimestamp) {
+        setAuthToken = '';
+        setExpiresAt = 0;
+        await AppUtility.clearLoginDataFromLocalStorage();
       }
     }
-    // if (_profileData.value.user != null) {
-    //   if (_profileData.value.user!.token == _token.value) {
-    //     await _logout();
-    //     AppUtils.showSnackBar(
-    //       StringValues.tokenError,
-    //       StringValues.error,
-    //     );
-    //   }
-    // }
   }
 
-  Future<void> _logout() async {
-    RouteManagement.goToLoginView();
+  Future<void> _logout(bool showLoading) async {
+    AppUtility.printLog("Logout Request");
     setAuthToken = '';
-    setExpiresAt = '';
-    await AppUtils.clearLoginDataFromLocalStorage();
-    AppUtils.showSnackBar(
-      StringValues.logoutSuccessful,
-      StringValues.success,
-    );
+    setExpiresAt = 0;
+    await AppUtility.clearLoginDataFromLocalStorage();
+    AppUtility.printLog("Logout Success");
   }
-
-  Future<void> logout() async => await _logout();
 
   void _checkForInternetConnectivity() {
     _streamSubscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) async {
       if (result != ConnectivityResult.none) {
-        AppUtils.closeDialog();
+        AppUtility.closeDialog();
       } else {
-        AppUtils.showNoInternetDialog();
+        AppUtility.showNoInternetDialog();
       }
     });
   }
+
+  Future<void> logout({showLoading = false}) async =>
+      await _logout(showLoading);
+
+  Future<bool> validateToken(String token) async => await _validateToken(token);
+
+  Future<String> checkServerHealth() async => await _checkServerHealth();
 
   @override
   onInit() async {

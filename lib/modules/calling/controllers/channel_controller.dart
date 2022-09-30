@@ -10,7 +10,7 @@ import 'package:video_calling_app/apis/services/auth_service.dart';
 import 'package:video_calling_app/constants/secrets.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/helpers/permissions.dart';
-import 'package:video_calling_app/helpers/utils.dart';
+import 'package:video_calling_app/helpers/utility.dart';
 import 'package:video_calling_app/routes/route_management.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -50,7 +50,7 @@ class ChannelController extends GetxController {
   String get channelId => _channelId;
 
   Future<void> _getRtcToken() async {
-    AppUtils.printLog("Get RTC Token Request...");
+    AppUtility.printLog("Get RTC Token Request...");
 
     try {
       final response =
@@ -61,26 +61,27 @@ class ChannelController extends GetxController {
       if (response.statusCode == 200) {
         _token = decodedData['key'];
       } else {
-        AppUtils.showSnackBar(
+        AppUtility.showSnackBar(
           StringValues.noData,
           StringValues.error,
         );
       }
     } on SocketException {
-      AppUtils.printLog(StringValues.internetConnError);
-      AppUtils.showSnackBar(StringValues.internetConnError, StringValues.error);
+      AppUtility.printLog(StringValues.internetConnError);
+      AppUtility.showSnackBar(
+          StringValues.internetConnError, StringValues.error);
     } on TimeoutException {
-      AppUtils.printLog(StringValues.connTimedOut);
-      AppUtils.printLog(StringValues.connTimedOut);
-      AppUtils.showSnackBar(StringValues.connTimedOut, StringValues.error);
+      AppUtility.printLog(StringValues.connTimedOut);
+      AppUtility.printLog(StringValues.connTimedOut);
+      AppUtility.showSnackBar(StringValues.connTimedOut, StringValues.error);
     } on FormatException catch (e) {
-      AppUtils.printLog(StringValues.formatExcError);
-      AppUtils.printLog(e);
-      AppUtils.showSnackBar(StringValues.errorOccurred, StringValues.error);
+      AppUtility.printLog(StringValues.formatExcError);
+      AppUtility.printLog(e);
+      AppUtility.showSnackBar(StringValues.errorOccurred, StringValues.error);
     } catch (exc) {
-      AppUtils.printLog(StringValues.errorOccurred);
-      AppUtils.printLog(exc);
-      AppUtils.showSnackBar(StringValues.errorOccurred, StringValues.error);
+      AppUtility.printLog(StringValues.errorOccurred);
+      AppUtility.printLog(exc);
+      AppUtility.showSnackBar(StringValues.errorOccurred, StringValues.error);
     }
   }
 
@@ -89,43 +90,43 @@ class ChannelController extends GetxController {
       RtcEngineEventHandler(
         error: (code) {
           final message = 'onError: $code';
-          AppUtils.printLog(message);
-          AppUtils.showSnackBar(message, 'error');
+          AppUtility.printLog(message);
+          AppUtility.showSnackBar(message, 'error');
         },
         joinChannelSuccess: (channel, uid, elapsed) {
           final message = 'onJoinChannel: $channel, uid: $uid';
-          AppUtils.printLog(message);
-          AppUtils.showSnackBar("You joined.", 'success');
+          AppUtility.printLog(message);
+          AppUtility.showSnackBar("You joined.", 'success');
         },
         userJoined: (uid, elapsed) {
           final message = 'userJoined: $uid';
-          AppUtils.printLog(message);
+          AppUtility.printLog(message);
           _participants.add(uid);
           update();
-          AppUtils.showSnackBar("$uid joined.", 'success');
+          AppUtility.showSnackBar("$uid joined.", 'success');
         },
         userOffline: (uid, elapsed) {
           final message = 'userOffline: $uid reason: $elapsed';
-          AppUtils.printLog(message);
+          AppUtility.printLog(message);
           _participants.removeWhere((element) => element == uid);
           update();
-          AppUtils.showSnackBar("$uid left.", 'warning');
+          AppUtility.showSnackBar("$uid left.", 'warning');
         },
         leaveChannel: (stats) {
           final message = 'leaveChannel ${stats.toJson()}';
-          AppUtils.printLog(message);
+          AppUtility.printLog(message);
           _participants.clear();
           update();
         },
         connectionLost: () {
           const message = "Connection is poor or lost.";
-          AppUtils.printLog(message);
-          AppUtils.showSnackBar(message, 'warning');
+          AppUtility.printLog(message);
+          AppUtility.showSnackBar(message, 'warning');
         },
         connectionInterrupted: () {
           const message = "Connection is interrupted.";
-          AppUtils.printLog(message);
-          AppUtils.showSnackBar(message, 'warning');
+          AppUtility.printLog(message);
+          AppUtility.showSnackBar(message, 'warning');
         },
         userMuteAudio: (uid, audioMuted) {
           String message;
@@ -134,8 +135,8 @@ class ChannelController extends GetxController {
           } else {
             message = '$uid unmuted audio.';
           }
-          AppUtils.printLog(message);
-          AppUtils.showSnackBar(message, 'warning');
+          AppUtility.printLog(message);
+          AppUtility.showSnackBar(message, 'warning');
         },
         userMuteVideo: (uid, videoMuted) {
           String message;
@@ -144,8 +145,8 @@ class ChannelController extends GetxController {
           } else {
             message = '$uid unmuted video.';
           }
-          AppUtils.printLog(message);
-          AppUtils.showSnackBar(message, 'warning');
+          AppUtility.printLog(message);
+          AppUtility.showSnackBar(message, 'warning');
         },
       ),
     );
@@ -161,14 +162,14 @@ class ChannelController extends GetxController {
     _cameraToggle = !_cameraToggle;
     _rtcEngine.muteLocalVideoStream(_cameraToggle);
 
-    AppUtils.printLog("Camera: $_cameraToggle");
+    AppUtility.printLog("Camera: $_cameraToggle");
     update();
   }
 
   void toggleMuteAudio() {
     _micToggle = !_micToggle;
     _rtcEngine.muteLocalAudioStream(_micToggle);
-    AppUtils.printLog("Mic: $_micToggle");
+    AppUtility.printLog("Mic: $_micToggle");
     update();
   }
 
@@ -228,8 +229,8 @@ class ChannelController extends GetxController {
     _channelId = Get.arguments[0] ?? _auth.channelId;
     _cameraToggle = Get.arguments[1] ?? false;
     _micToggle = Get.arguments[2] ?? false;
-    AppUtils.printLog("Mic: $_micToggle");
-    AppUtils.printLog("Camera: $_cameraToggle");
+    AppUtility.printLog("Mic: $_micToggle");
+    AppUtility.printLog("Camera: $_cameraToggle");
     _init();
   }
 

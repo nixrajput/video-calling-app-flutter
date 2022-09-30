@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
+import 'package:video_calling_app/constants/styles.dart';
 
 class NxOutlinedButton extends StatelessWidget {
   const NxOutlinedButton({
@@ -11,14 +11,16 @@ class NxOutlinedButton extends StatelessWidget {
     this.prefix,
     this.suffix,
     this.labelColor,
-    required this.onTap,
+    this.onTap,
     this.padding,
     this.width,
     this.height,
     this.fontSize,
     this.borderColor,
     this.borderWidth,
+    this.labelStyle,
     this.borderStyle,
+    this.minWidth,
   }) : super(key: key);
 
   final Color? bgColor;
@@ -28,52 +30,55 @@ class NxOutlinedButton extends StatelessWidget {
   final Color? borderColor;
   final Widget? prefix;
   final Widget? suffix;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final EdgeInsets? padding;
   final double? width;
   final double? height;
   final double? fontSize;
   final double? borderWidth;
+  final double? minWidth;
   final BorderStyle? borderStyle;
+  final TextStyle? labelStyle;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height ?? Dimens.fiftyFour,
-      child: OutlinedButton(
-        onPressed: onTap,
-        style: OutlinedButton.styleFrom(
-          elevation: Dimens.zero,
-          backgroundColor: bgColor ?? Colors.transparent,
-          primary: Colors.transparent,
-          padding: padding ?? Dimens.edgeInsets8,
-          side: BorderSide(
-            color: borderColor ?? ColorValues.primaryColor,
-            width: borderWidth ?? Dimens.one,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: width,
+        height: height,
+        padding: padding,
+        constraints: BoxConstraints(
+          maxWidth: Dimens.screenWidth,
+          minWidth: minWidth ?? Dimens.sixtyFour,
+        ),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: borderColor ?? Theme.of(context).textTheme.bodyText1!.color!,
+            width: borderWidth ?? Dimens.one * 1.5,
             style: borderStyle ?? BorderStyle.solid,
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              borderRadius ?? Dimens.four,
-            ),
-          ),
+          borderRadius: BorderRadius.circular(borderRadius ?? Dimens.eight),
+          color: bgColor ?? Colors.transparent,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (prefix != null) Container(child: prefix),
+            if (prefix != null) prefix!,
             if (prefix != null) Dimens.boxWidth4,
             Text(
               label,
-              style: TextStyle(
-                color: labelColor ?? ColorValues.primaryColor,
-                fontSize: fontSize ?? Dimens.fourteen,
-              ),
+              style: labelStyle ??
+                  AppStyles.style16Bold.copyWith(
+                    color: labelColor ??
+                        Theme.of(context).textTheme.bodyText1!.color,
+                    fontSize: fontSize ?? Dimens.sixTeen,
+                  ),
             ),
             if (suffix != null) Dimens.boxWidth4,
-            if (suffix != null) Container(child: suffix),
+            if (suffix != null) suffix!,
           ],
         ),
       ),

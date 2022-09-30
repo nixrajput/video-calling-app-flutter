@@ -1,5 +1,5 @@
 import 'package:permission_handler/permission_handler.dart';
-import 'package:video_calling_app/helpers/utils.dart';
+import 'package:video_calling_app/helpers/utility.dart';
 
 abstract class AppPermissions {
   static Future<bool> checkStoragePermission() async {
@@ -11,7 +11,7 @@ abstract class AppPermissions {
       return false;
     }
     if (status.isRestricted) {
-      AppUtils.showError("Storage Permission Error");
+      AppUtility.showError("Storage Permission Error");
       return false;
     }
     if (status.isPermanentlyDenied) {
@@ -31,7 +31,7 @@ abstract class AppPermissions {
       return false;
     }
     if (status.isRestricted) {
-      AppUtils.showError('Camera Permission Error');
+      AppUtility.showError('Camera Permission Error');
       return false;
     }
     if (status.isPermanentlyDenied) {
@@ -50,7 +50,7 @@ abstract class AppPermissions {
       return false;
     }
     if (status.isRestricted) {
-      AppUtils.showError('Microphone Permission Error');
+      AppUtility.showError('Microphone Permission Error');
       return false;
     }
     if (status.isPermanentlyDenied) {
