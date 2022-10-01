@@ -9,6 +9,7 @@ import 'package:video_calling_app/constants/dimens.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/constants/styles.dart';
 import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
+import 'package:video_calling_app/routes/route_management.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -64,12 +65,12 @@ class ProfileView extends StatelessWidget {
         logic.profileData.user!.avatar != null) {
       return NxCircleNetworkImage(
         imageUrl: logic.profileData.user!.avatar!.url!,
-        radius: Dimens.sixtyFour,
+        radius: Dimens.eighty,
       );
     }
     return NxCircleAssetImage(
       imgAsset: AssetValues.avatar,
-      radius: Dimens.sixtyFour,
+      radius: Dimens.eighty,
     );
   }
 
@@ -89,12 +90,6 @@ class ProfileView extends StatelessWidget {
               color: Theme.of(Get.context!).textTheme.subtitle1!.color,
             ),
           ),
-          if (logic.profileData.user!.about != null) Dimens.boxHeight8,
-          if (logic.profileData.user!.about != null)
-            Text(
-              logic.profileData.user!.about!,
-              style: AppStyles.style14Normal,
-            ),
           Dimens.boxHeight16,
         ],
       );
@@ -105,9 +100,10 @@ class ProfileView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           NxFilledButton(
-            label: StringValues.logout,
+            label: StringValues.logout.toUpperCase(),
             onTap: () {
               Get.find<AuthService>().logout();
+              RouteManagement.goToLoginView();
             },
           ),
         ],

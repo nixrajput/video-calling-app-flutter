@@ -82,14 +82,16 @@ class HomeView extends StatelessWidget {
                       ),
                       const Expanded(child: SizedBox()),
                       Dimens.boxHeight16,
-                      const NxFilledButton(
-                        label: StringValues.start,
+                      NxFilledButton(
+                        label: StringValues.start.toUpperCase(),
                         onTap: RouteManagement.goToStartView,
+                        height: Dimens.fiftySix,
                       ),
                       Dimens.boxHeight16,
-                      const NxOutlinedButton(
-                        label: StringValues.join,
+                      NxOutlinedButton(
+                        label: StringValues.join.toUpperCase(),
                         onTap: RouteManagement.goToJoinView,
+                        height: Dimens.fiftySix,
                       ),
                       Dimens.boxHeight16,
                     ],

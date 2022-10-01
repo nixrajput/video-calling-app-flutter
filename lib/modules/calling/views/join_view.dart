@@ -21,104 +21,115 @@ class JoinView extends StatelessWidget {
           child: SizedBox(
             width: Dimens.screenWidth,
             height: Dimens.screenHeight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const NxAppBar(
-                  title: StringValues.join,
-                ),
-                GetBuilder<JoinChannelController>(
-                  builder: (con) => Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+            child: GetBuilder<JoinChannelController>(
+              builder: (logic) {
+                return Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const Expanded(child: SizedBox()),
-                        Padding(
-                          padding: Dimens.edgeInsets8,
+                        const NxAppBar(
+                          title: StringValues.join,
+                        ),
+                        Expanded(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Channel ID',
-                                  hintStyle: TextStyle(
-                                    color: ColorValues.grayColor,
-                                  ),
+                              const Expanded(child: SizedBox()),
+                              Padding(
+                                padding: Dimens.edgeInsets8,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Channel ID',
+                                        hintStyle: TextStyle(
+                                          color: ColorValues.grayColor,
+                                        ),
+                                      ),
+                                      keyboardType: TextInputType.emailAddress,
+                                      maxLines: 1,
+                                      style: AppStyles.style16Normal.copyWith(
+                                        color: Theme.of(Get.context!)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color,
+                                      ),
+                                      controller: logic.channelIdTextController,
+                                      onEditingComplete: FocusManager
+                                          .instance.primaryFocus!.unfocus,
+                                    ),
+                                    Dimens.boxHeight8,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Camera",
+                                          style: AppStyles.style18Normal,
+                                        ),
+                                        Switch(
+                                          onChanged: (value) {
+                                            logic.enableVideo(value);
+                                          },
+                                          value: !logic.cameraToggle,
+                                          activeColor: ColorValues.primaryColor,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Audio",
+                                          style: AppStyles.style18Normal,
+                                        ),
+                                        Switch(
+                                          onChanged: (value) {
+                                            logic.enableAudio(value);
+                                          },
+                                          value: !logic.micToggle,
+                                          activeColor: ColorValues.primaryColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                keyboardType: TextInputType.emailAddress,
-                                maxLines: 1,
-                                style: AppStyles.style16Normal.copyWith(
-                                  color: Theme.of(Get.context!)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color,
-                                ),
-                                controller: con.channelIdTextController,
-                                onEditingComplete:
-                                    FocusManager.instance.primaryFocus!.unfocus,
                               ),
-                              Dimens.boxHeight8,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Camera",
-                                    style: AppStyles.style18Normal,
-                                  ),
-                                  Switch(
-                                    onChanged: (value) {
-                                      con.enableVideo(value);
-                                    },
-                                    value: !con.cameraToggle,
-                                    activeColor: ColorValues.primaryColor,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Audio",
-                                    style: AppStyles.style18Normal,
-                                  ),
-                                  Switch(
-                                    onChanged: (value) {
-                                      con.enableAudio(value);
-                                    },
-                                    value: !con.micToggle,
-                                    activeColor: ColorValues.primaryColor,
-                                  ),
-                                ],
-                              ),
+                              const Expanded(child: SizedBox()),
                             ],
                           ),
-                        ),
-                        const Expanded(child: SizedBox()),
-                        NxFilledButton(
-                          label: StringValues.join,
-                          borderRadius: 0.0,
-                          onTap: () {
-                            FocusManager.instance.primaryFocus!.unfocus();
-                            if (con.channelIdTextController.text.isEmpty) {
-                              return;
-                            }
-                            RouteManagement.goToCallingView(
-                              channelId:
-                                  con.channelIdTextController.text.trim(),
-                              enableAudio: con.micToggle,
-                              enableVideo: con.cameraToggle,
-                            );
-                          },
-                        ),
+                        )
                       ],
                     ),
-                  ),
-                ),
-              ],
+                    Positioned(
+                      bottom: Dimens.zero,
+                      left: Dimens.zero,
+                      right: Dimens.zero,
+                      child: NxFilledButton(
+                        label: StringValues.join.toUpperCase(),
+                        borderRadius: 0.0,
+                        onTap: () {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                          if (logic.channelIdTextController.text.isEmpty) {
+                            return;
+                          }
+                          RouteManagement.goToCallingView(
+                            channelId:
+                                logic.channelIdTextController.text.trim(),
+                            enableAudio: logic.micToggle,
+                            enableVideo: logic.cameraToggle,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),

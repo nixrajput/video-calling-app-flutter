@@ -26,7 +26,7 @@ class ForgotPasswordView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Dimens.boxHeight8,
+                Dimens.boxHeight16,
                 _buildImageHeader(),
                 Dimens.boxHeight16,
                 _buildForgotPasswordFields(),
@@ -72,16 +72,16 @@ class ForgotPasswordView extends StatelessWidget {
                       children: [
                         Text(
                           StringValues.forgotPassword,
-                          style: AppStyles.style24Bold,
+                          style: AppStyles.style32Bold,
                         ),
-                        Dimens.boxHeight16,
+                        Dimens.boxHeight8,
                         Text(
                           'We will send an OTP on this email address.',
                           style: AppStyles.style14Normal.copyWith(
                             color: ColorValues.darkGrayColor,
                           ),
                         ),
-                        Dimens.boxHeight16,
+                        Dimens.boxHeight32,
                         TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -92,7 +92,7 @@ class ForgotPasswordView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.emailAddress,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -100,6 +100,11 @@ class ForgotPasswordView extends StatelessWidget {
                           ),
                           controller: logic.emailTextController,
                           onEditingComplete: logic.focusNode.unfocus,
+                        ),
+                        Dimens.boxHeight32,
+                        const NxTextButton(
+                          label: StringValues.loginToAccount,
+                          onTap: RouteManagement.goToLoginView,
                         ),
                         Dimens.boxHeight16,
                         Row(
@@ -118,22 +123,6 @@ class ForgotPasswordView extends StatelessWidget {
                           ],
                         ),
                         Dimens.boxHeight16,
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              StringValues.alreadyHaveAccount,
-                              style: AppStyles.style16Normal,
-                            ),
-                            Dimens.boxWidth4,
-                            const NxTextButton(
-                              label: StringValues.login,
-                              onTap: RouteManagement.goToLoginView,
-                            ),
-                          ],
-                        ),
-                        Dimens.boxHeight16,
                       ],
                     ),
                   ),
@@ -145,7 +134,7 @@ class ForgotPasswordView extends StatelessWidget {
                 right: 0,
                 child: NxFilledButton(
                   onTap: () => logic.sendResetPasswordOTP(),
-                  label: StringValues.getOtp,
+                  label: StringValues.getOtp.toUpperCase(),
                   fontSize: Dimens.sixTeen,
                   borderRadius: 0.0,
                 ),

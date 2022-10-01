@@ -28,7 +28,7 @@ class ResetPasswordView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Dimens.boxHeight8,
+                Dimens.boxHeight16,
                 _buildImageHeader(),
                 Dimens.boxHeight16,
                 _buildResetPasswordFields(),
@@ -74,16 +74,16 @@ class ResetPasswordView extends StatelessWidget {
                       children: [
                         Text(
                           StringValues.resetPassword,
-                          style: AppStyles.style24Bold,
+                          style: AppStyles.style32Bold,
                         ),
-                        Dimens.boxHeight16,
+                        Dimens.boxHeight8,
                         Text(
                           'Enter the OTP that we sent to your email and create new password.',
                           style: AppStyles.style14Normal.copyWith(
                             color: ColorValues.darkGrayColor,
                           ),
                         ),
-                        Dimens.boxHeight16,
+                        Dimens.boxHeight32,
                         TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -98,7 +98,7 @@ class ResetPasswordView extends StatelessWidget {
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(6),
                           ],
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -107,7 +107,7 @@ class ResetPasswordView extends StatelessWidget {
                           controller: logic.otpTextController,
                           onEditingComplete: logic.focusNode.nextFocus,
                         ),
-                        Dimens.boxHeight24,
+                        Dimens.boxHeight16,
                         TextFormField(
                           obscureText: logic.showPassword,
                           decoration: InputDecoration(
@@ -127,7 +127,7 @@ class ResetPasswordView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.visiblePassword,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -136,7 +136,7 @@ class ResetPasswordView extends StatelessWidget {
                           controller: logic.passwordTextController,
                           onEditingComplete: logic.focusNode.nextFocus,
                         ),
-                        Dimens.boxHeight24,
+                        Dimens.boxHeight16,
                         TextFormField(
                           obscureText: logic.showPassword,
                           decoration: InputDecoration(
@@ -156,7 +156,7 @@ class ResetPasswordView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.visiblePassword,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -164,6 +164,11 @@ class ResetPasswordView extends StatelessWidget {
                           ),
                           controller: logic.confirmPasswordTextController,
                           onEditingComplete: logic.focusNode.unfocus,
+                        ),
+                        Dimens.boxHeight32,
+                        const NxTextButton(
+                          label: StringValues.loginToAccount,
+                          onTap: RouteManagement.goToLoginView,
                         ),
                         Dimens.boxHeight16,
                         Row(
@@ -193,7 +198,7 @@ class ResetPasswordView extends StatelessWidget {
                 right: 0,
                 child: NxFilledButton(
                   onTap: () => logic.resetPassword(),
-                  label: StringValues.resetPassword,
+                  label: StringValues.resetPassword.toUpperCase(),
                   fontSize: Dimens.sixTeen,
                   borderRadius: 0.0,
                 ),

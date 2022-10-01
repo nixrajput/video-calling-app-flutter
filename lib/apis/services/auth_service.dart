@@ -46,6 +46,7 @@ class AuthService extends GetxService {
       setAuthToken = decodedData[StringValues.token];
       token = decodedData[StringValues.token];
       await getDeviceId();
+      await getChannelInfo();
     }
     return token;
   }
@@ -56,6 +57,8 @@ class AuthService extends GetxService {
       setChannelId = decodedData[StringValues.channelId];
       setAgoraUid = decodedData[StringValues.agoraUid].toString();
     }
+    AppUtility.printLog("channelId: $_channelId");
+    AppUtility.printLog("agoraUid: $_agoraUid");
   }
 
   String generateDeviceId() {

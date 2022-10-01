@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
 import 'package:video_calling_app/constants/styles.dart';
 
@@ -54,11 +55,11 @@ class NxOutlinedButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           border: Border.all(
-            color: borderColor ?? Theme.of(context).textTheme.bodyText1!.color!,
-            width: borderWidth ?? Dimens.one * 1.5,
+            color: borderColor ?? ColorValues.primaryColor,
+            width: borderWidth ?? Dimens.two,
             style: borderStyle ?? BorderStyle.solid,
           ),
-          borderRadius: BorderRadius.circular(borderRadius ?? Dimens.eight),
+          borderRadius: BorderRadius.circular(borderRadius ?? Dimens.four),
           color: bgColor ?? Colors.transparent,
         ),
         child: Row(
@@ -72,8 +73,7 @@ class NxOutlinedButton extends StatelessWidget {
               label,
               style: labelStyle ??
                   AppStyles.style16Bold.copyWith(
-                    color: labelColor ??
-                        Theme.of(context).textTheme.bodyText1!.color,
+                    color: labelColor ?? ColorValues.primaryColor,
                     fontSize: fontSize ?? Dimens.sixTeen,
                   ),
             ),

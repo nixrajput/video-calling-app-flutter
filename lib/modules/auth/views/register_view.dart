@@ -27,7 +27,7 @@ class RegisterView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Dimens.boxHeight8,
+                Dimens.boxHeight16,
                 _buildImageHeader(),
                 Dimens.boxHeight16,
                 _buildRegistrationFields(),
@@ -76,7 +76,7 @@ class RegisterView extends StatelessWidget {
                           StringValues.register,
                           style: AppStyles.style24Bold,
                         ),
-                        Dimens.boxHeight16,
+                        Dimens.boxHeight32,
                         Row(
                           children: [
                             Expanded(
@@ -90,7 +90,7 @@ class RegisterView extends StatelessWidget {
                                 ),
                                 keyboardType: TextInputType.name,
                                 maxLines: 1,
-                                style: AppStyles.style16Normal.copyWith(
+                                style: AppStyles.style14Normal.copyWith(
                                   color: Theme.of(Get.context!)
                                       .textTheme
                                       .bodyText1!
@@ -112,7 +112,7 @@ class RegisterView extends StatelessWidget {
                                 ),
                                 keyboardType: TextInputType.name,
                                 maxLines: 1,
-                                style: AppStyles.style16Normal.copyWith(
+                                style: AppStyles.style14Normal.copyWith(
                                   color: Theme.of(Get.context!)
                                       .textTheme
                                       .bodyText1!
@@ -124,7 +124,7 @@ class RegisterView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Dimens.boxHeight24,
+                        Dimens.boxHeight16,
                         TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -135,7 +135,7 @@ class RegisterView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.emailAddress,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -144,7 +144,7 @@ class RegisterView extends StatelessWidget {
                           controller: logic.emailTextController,
                           onEditingComplete: logic.focusNode.nextFocus,
                         ),
-                        Dimens.boxHeight24,
+                        Dimens.boxHeight16,
                         TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -155,7 +155,7 @@ class RegisterView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.text,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -184,7 +184,7 @@ class RegisterView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.visiblePassword,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -213,7 +213,7 @@ class RegisterView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.visiblePassword,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -222,7 +222,7 @@ class RegisterView extends StatelessWidget {
                           controller: logic.confirmPasswordTextController,
                           onEditingComplete: logic.focusNode.unfocus,
                         ),
-                        Dimens.boxHeight16,
+                        Dimens.boxHeight32,
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -250,7 +250,7 @@ class RegisterView extends StatelessWidget {
                 right: 0,
                 child: NxFilledButton(
                   onTap: () => logic.register(),
-                  label: StringValues.register,
+                  label: StringValues.register.toUpperCase(),
                   fontSize: Dimens.sixTeen,
                   borderRadius: 0.0,
                 ),

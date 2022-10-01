@@ -152,13 +152,14 @@ abstract class AppUtility {
     Get.showSnackbar(
       GetSnackBar(
         margin: EdgeInsets.only(
+          top: Dimens.sixTeen,
           left: Dimens.sixTeen,
           right: Dimens.sixTeen,
-          bottom: Dimens.thirtyTwo,
         ),
         borderRadius: Dimens.four,
         padding: Dimens.edgeInsets16,
         snackStyle: SnackStyle.FLOATING,
+        snackPosition: SnackPosition.TOP,
         messageText: Text(
           message,
           style: TextStyle(
@@ -181,7 +182,7 @@ abstract class AppUtility {
         ),
         shouldIconPulse: false,
         backgroundColor: Theme.of(Get.context!).snackBarTheme.backgroundColor!,
-        duration: Duration(seconds: duration ?? 1),
+        duration: Duration(seconds: duration ?? 2),
       ),
     );
   }
@@ -207,8 +208,8 @@ abstract class AppUtility {
     }
   }
 
-  static Future<void> saveLoginDataToLocalStorage(token, expiresAt) async {
-    if (token!.isNotEmpty && expiresAt!.isNotEmpty) {
+  static Future<void> saveLoginDataToLocalStorage(token, int expiresAt) async {
+    if (token!.isNotEmpty && expiresAt > 0) {
       final data = jsonEncode({
         StringValues.token: token,
         StringValues.expiresAt: expiresAt,
@@ -347,8 +348,8 @@ abstract class AppUtility {
   }
 
   /// Generates a random string of [length] with only numeric characters.
-  static String randomNumeric(int length) =>
-      randomString(length, from: numericStart, to: numericEnd);
+  static int randomNumeric(int length) =>
+      int.parse(randomString(length, from: numericStart, to: numericEnd));
 
   static int randomIntNumeric(int length) =>
       int.parse(randomString(length, from: numericStart, to: numericEnd));

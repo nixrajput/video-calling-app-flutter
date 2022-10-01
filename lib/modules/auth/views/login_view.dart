@@ -27,7 +27,7 @@ class LoginView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Dimens.boxHeight8,
+                Dimens.boxHeight16,
                 _buildImageHeader(),
                 Dimens.boxHeight16,
                 _buildLoginFields(),
@@ -73,9 +73,9 @@ class LoginView extends StatelessWidget {
                       children: [
                         Text(
                           StringValues.login,
-                          style: AppStyles.style24Bold,
+                          style: AppStyles.style32Bold,
                         ),
-                        Dimens.boxHeight16,
+                        Dimens.boxHeight32,
                         TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -86,7 +86,7 @@ class LoginView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.emailAddress,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -95,7 +95,7 @@ class LoginView extends StatelessWidget {
                           controller: logic.emailUnameTextController,
                           onEditingComplete: logic.focusNode.nextFocus,
                         ),
-                        Dimens.boxHeight24,
+                        Dimens.boxHeight16,
                         TextFormField(
                           obscureText: logic.showPassword,
                           decoration: InputDecoration(
@@ -115,7 +115,7 @@ class LoginView extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.visiblePassword,
                           maxLines: 1,
-                          style: AppStyles.style16Normal.copyWith(
+                          style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)
                                 .textTheme
                                 .bodyText1!
@@ -124,7 +124,7 @@ class LoginView extends StatelessWidget {
                           controller: logic.passwordTextController,
                           onEditingComplete: logic.focusNode.unfocus,
                         ),
-                        Dimens.boxHeight16,
+                        Dimens.boxHeight32,
                         const NxTextButton(
                           label: StringValues.forgotPassword,
                           onTap: RouteManagement.goToForgotPasswordView,
@@ -162,7 +162,7 @@ class LoginView extends StatelessWidget {
                 right: 0,
                 child: NxFilledButton(
                   onTap: () => logic.login(),
-                  label: StringValues.login,
+                  label: StringValues.login.toUpperCase(),
                   fontSize: Dimens.sixTeen,
                   borderRadius: 0.0,
                 ),

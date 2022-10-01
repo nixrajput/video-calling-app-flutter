@@ -21,90 +21,104 @@ class StartView extends StatelessWidget {
         child: SizedBox(
           width: Dimens.screenWidth,
           height: Dimens.screenHeight,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const NxAppBar(
-                title: StringValues.start,
-              ),
-              Expanded(
-                child: GetBuilder<StartChannelController>(
-                  builder: (logic) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          child: GetBuilder<StartChannelController>(
+            builder: (logic) {
+              return Stack(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Expanded(child: SizedBox()),
-                      Padding(
-                        padding: Dimens.edgeInsets8,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Meeting ID",
-                                  style: AppStyles.style18Normal,
-                                ),
-                                Text(
-                                  AppUtility.formatMeetingId(
-                                      Get.find<AuthService>()
-                                          .channelId
-                                          .toString()),
-                                  style: AppStyles.style20Bold,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Camera",
-                                  style: AppStyles.style18Normal,
-                                ),
-                                Switch(
-                                  onChanged: (value) {
-                                    logic.enableVideo(value);
-                                  },
-                                  value: !logic.cameraToggle,
-                                  activeColor: ColorValues.primaryColor,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Audio",
-                                  style: AppStyles.style18Normal,
-                                ),
-                                Switch(
-                                  onChanged: (value) {
-                                    logic.enableAudio(value);
-                                  },
-                                  value: !logic.micToggle,
-                                  activeColor: ColorValues.primaryColor,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                      const NxAppBar(
+                        title: StringValues.start,
                       ),
-                      const Expanded(child: SizedBox()),
-                      NxFilledButton(
-                        label: StringValues.start,
-                        borderRadius: 0.0,
-                        onTap: () => RouteManagement.goToCallingView(
-                          enableAudio: logic.micToggle,
-                          enableVideo: logic.cameraToggle,
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const Expanded(child: SizedBox()),
+                            Padding(
+                              padding: Dimens.edgeInsets8,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Meeting ID",
+                                        style: AppStyles.style18Normal,
+                                      ),
+                                      Text(
+                                        AppUtility.formatMeetingId(
+                                            Get.find<AuthService>()
+                                                .channelId
+                                                .toString()),
+                                        style: AppStyles.style20Bold,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Camera",
+                                        style: AppStyles.style18Normal,
+                                      ),
+                                      Switch(
+                                        onChanged: (value) {
+                                          logic.enableVideo(value);
+                                        },
+                                        value: !logic.cameraToggle,
+                                        activeColor: ColorValues.primaryColor,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Audio",
+                                        style: AppStyles.style18Normal,
+                                      ),
+                                      Switch(
+                                        onChanged: (value) {
+                                          logic.enableAudio(value);
+                                        },
+                                        value: !logic.micToggle,
+                                        activeColor: ColorValues.primaryColor,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Expanded(child: SizedBox()),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ),
-            ],
+                  Positioned(
+                    bottom: Dimens.zero,
+                    left: Dimens.zero,
+                    right: Dimens.zero,
+                    child: NxFilledButton(
+                      label: StringValues.start.toUpperCase(),
+                      borderRadius: 0.0,
+                      onTap: () => RouteManagement.goToCallingView(
+                        enableAudio: logic.micToggle,
+                        enableVideo: logic.cameraToggle,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

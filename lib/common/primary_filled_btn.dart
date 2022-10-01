@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_calling_app/constants/colors.dart';
 import 'package:video_calling_app/constants/dimens.dart';
 import 'package:video_calling_app/constants/styles.dart';
 
@@ -42,8 +43,8 @@ class NxFilledButton extends StatelessWidget {
         padding: padding,
         constraints: BoxConstraints(maxWidth: Dimens.screenWidth),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius ?? Dimens.eight),
-          color: bgColor ?? Theme.of(context).textTheme.bodyText1!.color,
+          borderRadius: BorderRadius.circular(borderRadius ?? Dimens.four),
+          color: bgColor ?? ColorValues.primaryColor,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -55,8 +56,7 @@ class NxFilledButton extends StatelessWidget {
               label,
               style: labelStyle ??
                   AppStyles.style16Bold.copyWith(
-                    color:
-                        labelColor ?? Theme.of(context).scaffoldBackgroundColor,
+                    color: labelColor ?? ColorValues.whiteColor,
                     fontSize: fontSize ?? Dimens.sixTeen,
                   ),
             ),
