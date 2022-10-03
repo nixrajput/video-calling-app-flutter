@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_calling_app/apis/providers/api_provider.dart';
 import 'package:video_calling_app/constants/strings.dart';
@@ -17,7 +15,6 @@ class AuthService extends GetxService {
 
   String _authToken = '';
   int _expiresAt = 0;
-  int _deviceId = 0;
   int _channelId = 0;
   String _agoraUid = '';
   StreamSubscription<dynamic>? _streamSubscription;
@@ -45,7 +42,6 @@ class AuthService extends GetxService {
       _expiresAt = decodedData[StringValues.expiresAt];
       setAuthToken = decodedData[StringValues.token];
       token = decodedData[StringValues.token];
-      await getDeviceId();
       await getChannelInfo();
     }
     return token;
@@ -59,50 +55,6 @@ class AuthService extends GetxService {
     }
     AppUtility.printLog("channelId: $_channelId");
     AppUtility.printLog("agoraUid: $_agoraUid");
-  }
-
-  String generateDeviceId() {
-    const chars = '1234567890';
-    var rnd = Random();
-
-    var devId = String.fromCharCodes(
-      Iterable.generate(
-        16,
-        (_) => chars.codeUnitAt(rnd.nextInt(chars.length)),
-      ),
-    );
-
-    return devId;
-  }
-
-  Future<void> getDeviceId() async {
-    final devData = GetStorage();
-
-    var savedDevId = devData.read('deviceId');
-
-    try {
-      _deviceId = int.parse(savedDevId);
-    } catch (err) {
-      var devId = generateDeviceId();
-      await devData.write('deviceId', devId);
-      var savedDevId = devData.read('deviceId');
-      _deviceId = int.parse(savedDevId);
-    }
-
-    final response = await _apiProvider.saveDeviceId(
-      authToken,
-      {'deviceId': _deviceId.toString()},
-    );
-
-    final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
-
-    if (response.statusCode == 200) {
-      AppUtility.printLog(decodedData[StringValues.message]);
-    } else {
-      AppUtility.printLog(decodedData[StringValues.message]);
-    }
-
-    AppUtility.printLog("deviceId: $_deviceId");
   }
 
   Future<String> _checkServerHealth() async {
