@@ -148,6 +148,32 @@ class ApiProvider {
     return response;
   }
 
+  Future<http.Response> checkUsername(String token, String uname) async {
+    final response = await _client.post(
+      Uri.parse(baseUrl! + AppUrls.checkUsernameEndpoint),
+      headers: {
+        "content-type": "application/json",
+        "authorization": "Bearer $token",
+      },
+      body: jsonEncode({'uname': uname}),
+    );
+
+    return response;
+  }
+
+  Future<http.Response> changeUsername(String token, String uname) async {
+    final response = await _client.post(
+      Uri.parse(baseUrl! + AppUrls.changeUsernameEndpoint),
+      headers: {
+        "content-type": "application/json",
+        "authorization": "Bearer $token",
+      },
+      body: jsonEncode({'uname': uname}),
+    );
+
+    return response;
+  }
+
   Future<http.Response> updateProfile(
       String token, Map<String, dynamic> body) async {
     final response = await _client.put(

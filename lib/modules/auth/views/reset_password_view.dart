@@ -65,7 +65,7 @@ class ResetPasswordView extends StatelessWidget {
             children: [
               SingleChildScrollView(
                 child: Padding(
-                  padding: Dimens.edgeInsets0_8,
+                  padding: Dimens.edgeInsets0_16,
                   child: FocusScope(
                     node: logic.focusNode,
                     child: Column(

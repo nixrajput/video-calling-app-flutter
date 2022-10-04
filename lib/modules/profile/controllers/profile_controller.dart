@@ -18,14 +18,14 @@ class ProfileController extends GetxController {
   final _auth = AuthService.find;
 
   final _isLoading = false.obs;
-  final _profileData = ProfileResponse().obs;
+  final _profileDetails = ProfileResponse().obs;
 
   bool get isLoading => _isLoading.value;
 
-  ProfileResponse get profileData => _profileData.value;
+  ProfileResponse? get profileDetails => _profileDetails.value;
 
   set setProfileData(ProfileResponse value) {
-    _profileData.value = value;
+    _profileDetails.value = value;
   }
 
   Future<bool> _getProfileDetails() async {

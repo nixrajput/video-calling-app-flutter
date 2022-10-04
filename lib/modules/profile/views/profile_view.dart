@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_calling_app/apis/models/entities/user_avatar.dart';
 import 'package:video_calling_app/apis/services/auth_service.dart';
 import 'package:video_calling_app/common/circular_asset_image.dart';
 import 'package:video_calling_app/common/circular_network_image.dart';
 import 'package:video_calling_app/common/custom_app_bar.dart';
 import 'package:video_calling_app/common/primary_filled_btn.dart';
+import 'package:video_calling_app/common/primary_icon_btn.dart';
+import 'package:video_calling_app/common/primary_outlined_btn.dart';
+import 'package:video_calling_app/common/primary_text_btn.dart';
 import 'package:video_calling_app/constants/dimens.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/constants/styles.dart';
+import 'package:video_calling_app/helpers/utility.dart';
+import 'package:video_calling_app/modules/profile/controllers/edit_profile_picture_controller.dart';
 import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
 import 'package:video_calling_app/routes/route_management.dart';
 
@@ -41,11 +47,17 @@ class ProfileView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          _buildProfileImage(logic),
+                          GetBuilder<EditProfilePictureController>(
+                            builder: (con) => GestureDetector(
+                              onTap: () => _showProfilePictureDialog(logic),
+                              child: _buildProfileImage(
+                                  logic.profileDetails!.user!.avatar),
+                            ),
+                          ),
                           Dimens.boxHeight16,
                           _buildUserDetails(logic),
                           Dimens.dividerWithHeight,
-                          Dimens.boxHeight16,
+                          Dimens.boxHeight8,
                           _buildActionButtons(),
                         ],
                       ),
@@ -60,17 +72,16 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileImage(ProfileController logic) {
-    if (logic.profileData.user != null &&
-        logic.profileData.user!.avatar != null) {
+  Widget _buildProfileImage(UserAvatar? avatar, {double? size}) {
+    if (avatar != null && avatar.url != null) {
       return NxCircleNetworkImage(
-        imageUrl: logic.profileData.user!.avatar!.url!,
-        radius: Dimens.eighty,
+        imageUrl: avatar.url!,
+        radius: size ?? Dimens.eighty,
       );
     }
     return NxCircleAssetImage(
       imgAsset: AssetValues.avatar,
-      radius: Dimens.eighty,
+      radius: size ?? Dimens.eighty,
     );
   }
 
@@ -80,11 +91,11 @@ class ProfileView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '${logic.profileData.user!.fname} ${logic.profileData.user!.lname}',
+            '${logic.profileDetails!.user!.fname} ${logic.profileDetails!.user!.lname}',
             style: AppStyles.style20Bold,
           ),
           Text(
-            "@${logic.profileData.user!.uname}",
+            "@${logic.profileDetails!.user!.uname}",
             style: TextStyle(
               fontSize: Dimens.sixTeen,
               color: Theme.of(Get.context!).textTheme.subtitle1!.color,
@@ -99,6 +110,21 @@ class ProfileView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          const NxTextButton(
+            label: StringValues.changePassword,
+            onTap: RouteManagement.goToChangePasswordView,
+          ),
+          Dimens.boxHeight16,
+          const NxTextButton(
+            label: StringValues.changeName,
+            onTap: RouteManagement.goToEditNameView,
+          ),
+          Dimens.boxHeight16,
+          const NxTextButton(
+            label: StringValues.changeUsername,
+            onTap: RouteManagement.goToEditUsernameView,
+          ),
+          Dimens.boxHeight16,
           NxFilledButton(
             label: StringValues.logout.toUpperCase(),
             onTap: () {
@@ -108,4 +134,91 @@ class ProfileView extends StatelessWidget {
           ),
         ],
       );
+
+  void _showProfilePictureDialog(ProfileController logic) {
+    AppUtility.showSimpleDialog(
+      GetBuilder<EditProfilePictureController>(
+        builder: (con) => Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: Dimens.edgeInsets16.copyWith(
+                bottom: Dimens.zero,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    'Profile Picture',
+                    style: AppStyles.style18Bold,
+                  ),
+                  const Spacer(),
+                  NxIconButton(
+                    icon: Icons.close,
+                    iconSize: Dimens.thirtyTwo,
+                    iconColor:
+                        Theme.of(Get.context!).textTheme.bodyText1!.color,
+                    onTap: AppUtility.closeDialog,
+                  ),
+                ],
+              ),
+            ),
+            Dimens.dividerWithHeight,
+            Dimens.boxHeight8,
+            _buildProfileImage(
+              logic.profileDetails!.user?.avatar,
+              size: Dimens.screenWidth * 0.4,
+            ),
+            Dimens.boxHeight16,
+            Dimens.dividerWithHeight,
+            Dimens.boxHeight16,
+            Padding(
+              padding: Dimens.edgeInsets0_16,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: NxOutlinedButton(
+                        width: Dimens.hundred,
+                        height: Dimens.thirtySix,
+                        label: 'Change',
+                        borderColor:
+                            Theme.of(Get.context!).textTheme.bodyText1!.color,
+                        labelStyle: AppStyles.style14Normal.copyWith(
+                          color:
+                              Theme.of(Get.context!).textTheme.bodyText1!.color,
+                        ),
+                        onTap: () {
+                          AppUtility.closeDialog();
+                          con.chooseImage();
+                        }),
+                  ),
+                  Dimens.boxWidth16,
+                  Expanded(
+                    child: NxOutlinedButton(
+                      width: Dimens.hundred,
+                      height: Dimens.thirtySix,
+                      label: 'Remove',
+                      borderColor:
+                          Theme.of(Get.context!).textTheme.bodyText1!.color,
+                      labelStyle: AppStyles.style14Normal.copyWith(
+                        color:
+                            Theme.of(Get.context!).textTheme.bodyText1!.color,
+                      ),
+                      onTap: () {
+                        AppUtility.closeDialog();
+                        con.removeProfilePicture();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Dimens.boxHeight24,
+          ],
+        ),
+      ),
+    );
+  }
 }

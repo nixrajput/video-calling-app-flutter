@@ -79,6 +79,43 @@ abstract class AppUtility {
     );
   }
 
+  static void showSimpleDialog(Widget child,
+      {bool barrierDismissible = false}) {
+    closeSnackBar();
+    closeDialog();
+    Get.dialog(
+      MediaQuery.removeViewInsets(
+        context: Get.context!,
+        removeLeft: true,
+        removeTop: true,
+        removeRight: true,
+        removeBottom: true,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: Dimens.screenHeight,
+            maxWidth: Dimens.hundred * 6,
+          ),
+          child: Padding(
+            padding: Dimens.edgeInsets16,
+            child: Align(
+              alignment: Alignment.center,
+              child: Material(
+                type: MaterialType.card,
+                color: Theme.of(Get.context!).dialogBackgroundColor,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(Dimens.eight),
+                ),
+                child: child,
+              ),
+            ),
+          ),
+        ),
+      ),
+      barrierDismissible: barrierDismissible,
+      barrierColor: ColorValues.blackColor.withOpacity(0.75),
+    );
+  }
+
   static void showNoInternetDialog() {
     closeDialog();
     Get.dialog<void>(

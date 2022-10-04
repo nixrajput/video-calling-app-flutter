@@ -11,6 +11,7 @@ import 'package:video_calling_app/constants/secrets.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/helpers/permissions.dart';
 import 'package:video_calling_app/helpers/utility.dart';
+import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
 import 'package:video_calling_app/routes/route_management.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -18,6 +19,7 @@ class ChannelController extends GetxController {
   static ChannelController get find => Get.find();
 
   final _auth = AuthService.find;
+  final profile = ProfileController.find;
 
   final _apiProvider = ApiProvider(http.Client());
 

@@ -64,7 +64,7 @@ class RegisterView extends StatelessWidget {
             children: [
               SingleChildScrollView(
                 child: Padding(
-                  padding: Dimens.edgeInsets0_8,
+                  padding: Dimens.edgeInsets0_16,
                   child: FocusScope(
                     node: logic.focusNode,
                     child: Column(
@@ -100,7 +100,7 @@ class RegisterView extends StatelessWidget {
                                 onEditingComplete: logic.focusNode.nextFocus,
                               ),
                             ),
-                            Dimens.boxWidth8,
+                            Dimens.boxWidth16,
                             Expanded(
                               child: TextFormField(
                                 decoration: const InputDecoration(

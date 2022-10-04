@@ -19,6 +19,8 @@ abstract class AppRoutes {
 
   static const profile = _Routes.profile;
   static const editProfile = _Routes.editProfile;
+  static const editName = _Routes.editName;
+  static const editUsername = _Routes.editUsername;
 
   static const calling = _Routes.calling;
   static const start = _Routes.start;
@@ -48,6 +50,8 @@ abstract class _Routes {
 
   static const profile = '/profile';
   static const editProfile = '/edit_profile';
+  static const editName = '/edit_name';
+  static const editUsername = '/edit_username';
 
   static const calling = '/calling';
   static const start = '/start';

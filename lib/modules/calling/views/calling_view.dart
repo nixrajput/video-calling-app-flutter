@@ -1,6 +1,7 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_calling_app/apis/models/entities/user_avatar.dart';
 import 'package:video_calling_app/common/circular_asset_image.dart';
 import 'package:video_calling_app/common/circular_network_image.dart';
 import 'package:video_calling_app/common/primary_icon_btn.dart';
@@ -9,7 +10,6 @@ import 'package:video_calling_app/constants/dimens.dart';
 import 'package:video_calling_app/constants/strings.dart';
 import 'package:video_calling_app/helpers/utility.dart';
 import 'package:video_calling_app/modules/calling/controllers/channel_controller.dart';
-import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
 
 class CallingView extends StatefulWidget {
   const CallingView({Key? key}) : super(key: key);
@@ -315,18 +315,16 @@ class _CallingViewState extends State<CallingView>
     );
   }
 
-  Widget _buildProfileImage({double? radius}) {
-    var profile = ProfileController.find;
-    if (profile.profileData.user != null &&
-        profile.profileData.user!.avatar != null) {
+  Widget _buildProfileImage(UserAvatar? avatar, {double? size}) {
+    if (avatar != null && avatar.url != null) {
       return NxCircleNetworkImage(
-        imageUrl: profile.profileData.user!.avatar!.url!,
-        radius: radius ?? Dimens.sixtyFour,
+        imageUrl: avatar.url!,
+        radius: size ?? Dimens.thirtyTwo,
       );
     }
     return NxCircleAssetImage(
       imgAsset: AssetValues.avatar,
-      radius: radius ?? Dimens.sixtyFour,
+      radius: size ?? Dimens.thirtyTwo,
     );
   }
 
@@ -341,7 +339,10 @@ class _CallingViewState extends State<CallingView>
                 width: Dimens.screenWidth,
                 height: Dimens.screenHeight,
                 child: Center(
-                  child: _buildProfileImage(),
+                  child: _buildProfileImage(
+                    logic.profile.profileDetails!.user!.avatar,
+                    size: Dimens.sixtyFour,
+                  ),
                 ),
               )
             : AgoraVideoView(
@@ -357,7 +358,10 @@ class _CallingViewState extends State<CallingView>
     if (logic.participants.length > 2) {
       return logic.videoMuted
           ? Center(
-              child: _buildProfileImage(radius: Dimens.twenty),
+              child: _buildProfileImage(
+                logic.profile.profileDetails!.user!.avatar,
+                size: Dimens.twenty,
+              ),
             )
           : AgoraVideoView(
               controller: VideoViewController(
@@ -379,7 +383,10 @@ class _CallingViewState extends State<CallingView>
           height: Dimens.hundred * 1.6,
           child: logic.videoMuted
               ? Center(
-                  child: _buildProfileImage(radius: Dimens.twenty),
+                  child: _buildProfileImage(
+                    logic.profile.profileDetails!.user!.avatar,
+                    size: Dimens.twenty,
+                  ),
                 )
               : AgoraVideoView(
                   controller: VideoViewController(

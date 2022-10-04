@@ -1,25 +1,37 @@
 # LiveBox : A Video Calling App
 
-A new video calling mobile application using Flutter, Agora SDK and GetX state management.
+LiveBox is a video calling and conferencing app that allows you to make video calls with your friends and family.
 
-## Features
+[<img src='screenshots/download.png' height='50' alt='Download' title='Download'>][releases]
 
-- Login
-- Registration
-- Forgot Password
-- Reset Password
-- Change Password
-- Get Profile Details
-- Update Profile Details
-- Upload Profile Picture
-- Delete Profile
-- Video Calling & Conferencing
+- The app is developed using Flutter and Agora SDK.
 
+- The app is currently in development and is not yet available on Play Store.
 
-## Download APK
+- The app is currently available for Android only.
 
-[Download](https://github.com/nixrajput/video-calling-app-flutter/releases/tag/v1.0.0-beta.1)
+- We are open to contributions. Feel free to open an issue or a pull request.
 
+## Setup
+
+- Create `secrets.dart` file in constants folder.
+- Add the following code to the file.
+
+```dart
+abstract class AppSecrets {
+    static const appId = "XXX-XXX-XXX-XXX";
+    static const certificate = "XXX-XXX-XXX-XXX";
+    static const githubToken = 'XXX-XXX-XXX-XXX';
+}
+```
+
+- Replace XXX-XXX-XXX-XXX with your values in the file.
+- Now run the following commands:
+
+```dart
+flutter clean
+flutter pub get packages
+```
 
 ## Screenshots
 
@@ -39,6 +51,32 @@ A new video calling mobile application using Flutter, Agora SDK and GetX state m
 
 <img src="screenshots/4.png" alt="" width="400" />
 
+## Download
+
+You can download the app from the [releases page][releases].
+
+## Authors
+
+- **[Nikhil Rajput][portfolio]** - *Owner & Lead Developer*
+
+## Features
+
+- [x] User Authentication
+- [x] Video Calling & Conferencing
+
+## Future Plans
+
+- [ ] Video quality selection and control
+- [ ] Video recording
+- [ ] Video frame rate control
+- [ ] End to end encryption
+- [ ] Video switching and screen sharing
+- [ ] Face detection and beautification
+
+## License
+
+This project is licensed under the GPL-3.0 License - see the
+[LICENSE.md](LICENSE.md) file for details
 
 ## Connect With Me
 
@@ -61,3 +99,4 @@ A new video calling mobile application using Flutter, Agora SDK and GetX state m
 [twitter]: https://twitter.com/nixrajput07
 [instagram]: https://instagram.com/nixrajput
 [linkedin]: https://linkedin.com/in/nixrajput
+[releases]: https://github.com/nixrajput/video-calling-app-flutter/releases

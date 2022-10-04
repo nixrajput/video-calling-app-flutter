@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:video_calling_app/apis/models/responses/login_response.dart';
 import 'package:video_calling_app/apis/providers/api_provider.dart';
 import 'package:video_calling_app/apis/services/auth_service.dart';
 import 'package:video_calling_app/constants/strings.dart';
@@ -13,104 +12,83 @@ import 'package:video_calling_app/helpers/utility.dart';
 import 'package:video_calling_app/modules/profile/controllers/profile_controller.dart';
 import 'package:video_calling_app/routes/route_management.dart';
 
-class LoginController extends GetxController {
-  static LoginController get find => Get.find();
+class EditNameController extends GetxController {
+  static EditNameController get find => Get.find();
 
+  final _profile = ProfileController.find;
   final _auth = AuthService.find;
-  final _profileController = ProfileController.find;
 
   final _apiProvider = ApiProvider(http.Client());
 
-  final emailUnameTextController = TextEditingController();
-  final passwordTextController = TextEditingController();
+  final fNameTextController = TextEditingController();
+  final lNameTextController = TextEditingController();
 
   final FocusScopeNode focusNode = FocusScopeNode();
-  final _showPassword = true.obs;
-  final _accountStatus = ''.obs;
-  final _loginData = LoginResponse().obs;
+
   final _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;
 
-  String get accountStatus => _accountStatus.value;
-
-  bool get showPassword => _showPassword.value;
-
-  set setLoginData(LoginResponse value) {
-    _loginData.value = value;
+  @override
+  void onInit() {
+    initializeFields();
+    super.onInit();
   }
 
-  LoginResponse get loginData => _loginData.value;
-
-  void _clearLoginTextControllers() {
-    emailUnameTextController.clear();
-    passwordTextController.clear();
+  void initializeFields() async {
+    if (_profile.profileDetails!.user != null) {
+      var user = _profile.profileDetails!.user!;
+      fNameTextController.text = user.fname;
+      lNameTextController.text = user.lname;
+    }
   }
 
-  void toggleViewPassword() {
-    _showPassword(!_showPassword.value);
-    update();
-  }
-
-  Future<void> _login(String emailUname, String password) async {
-    if (emailUname.isEmpty) {
+  Future<void> _updateName(
+    String fname,
+    String lname,
+  ) async {
+    if (fname.isEmpty) {
       AppUtility.showSnackBar(
-        StringValues.enterEmail,
+        StringValues.enterFirstName,
         StringValues.warning,
       );
       return;
     }
-    if (password.isEmpty) {
+
+    if (lname.isEmpty) {
       AppUtility.showSnackBar(
-        StringValues.enterPassword,
+        StringValues.enterLastName,
         StringValues.warning,
       );
       return;
     }
 
     final body = {
-      'emailUname': emailUname,
-      'password': password,
+      'fname': fname,
+      'lname': lname,
     };
 
-    AppUtility.printLog("User Login Request...");
+    AppUtility.printLog("Update Name Request...");
     AppUtility.showLoadingDialog();
     _isLoading.value = true;
     update();
 
     try {
-      final response = await _apiProvider.login(body);
+      final response = await _apiProvider.updateProfile(_auth.authToken, body);
 
       final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
 
       if (response.statusCode == 200) {
-        setLoginData = LoginResponse.fromJson(decodedData);
-
-        var token = loginData.token!;
-        var expiresAt = loginData.expiresAt!;
-
-        await AppUtility.saveLoginDataToLocalStorage(token, expiresAt);
-
-        _auth.setAuthToken = token;
-        _auth.setExpiresAt = expiresAt;
-        _auth.autoLogout();
-
-        await AppUtility.saveChannelDataToLocalStorage();
-        await _auth.getChannelInfo();
-        await _profileController.fetchProfileDetails();
-
-        _clearLoginTextControllers();
-
+        await _profile.fetchProfileDetails();
         AppUtility.closeDialog();
         _isLoading.value = false;
         update();
-        RouteManagement.goToHomeView();
+        RouteManagement.goToBack();
         AppUtility.showSnackBar(
-          StringValues.loginSuccessful,
+          StringValues.updateProfileSuccessful,
           StringValues.success,
         );
       } else {
-        _accountStatus.value = decodedData['accountStatus'];
         AppUtility.closeDialog();
         _isLoading.value = false;
         update();
@@ -149,11 +127,17 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> login() async {
+  Future<void> updateName() async {
     AppUtility.closeFocus();
-    await _login(
-      emailUnameTextController.text.trim(),
-      passwordTextController.text.trim(),
+    if (fNameTextController.text.trim() ==
+            _profile.profileDetails!.user!.fname &&
+        lNameTextController.text.trim() ==
+            _profile.profileDetails!.user!.lname) {
+      return;
+    }
+    await _updateName(
+      fNameTextController.text.trim(),
+      lNameTextController.text.trim(),
     );
   }
 }

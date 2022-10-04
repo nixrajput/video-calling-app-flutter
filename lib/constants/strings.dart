@@ -13,6 +13,7 @@ abstract class StringValues {
   static const email = 'Email';
   static const username = 'Username';
   static const password = 'Password';
+  static const emailUname = 'Email or Username';
   static const confirmPassword = 'Confirm Password';
   static const newPassword = 'New Password';
   static const oldPassword = 'Old Password';
@@ -60,6 +61,9 @@ abstract class StringValues {
   static const updateUsernameSuccessful = 'Username updated successfully.';
   static const tokenError = 'Token is expired or invalid.';
   static const changePassword = 'Change Password';
+  static const changeUsername = 'Change Username';
+  static const changeProfilePicture = 'Change Profile Picture';
+  static const changeName = 'Change Name';
   static const about = 'About';
   static const userNotFoundError = 'User details not found.';
   static const save = 'Save';

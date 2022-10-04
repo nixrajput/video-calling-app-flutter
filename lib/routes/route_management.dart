@@ -72,6 +72,14 @@ abstract class RouteManagement {
     Get.offAllNamed(AppRoutes.appUpdate);
   }
 
+  static void goToEditNameView() {
+    Get.toNamed(AppRoutes.editName);
+  }
+
+  static void goToEditUsernameView() {
+    Get.toNamed(AppRoutes.editUsername);
+  }
+
   static void goToBack() {
     Get.back();
   }

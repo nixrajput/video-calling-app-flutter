@@ -64,7 +64,7 @@ class LoginView extends StatelessWidget {
             children: [
               SingleChildScrollView(
                 child: Padding(
-                  padding: Dimens.edgeInsets0_8,
+                  padding: Dimens.edgeInsets0_16,
                   child: FocusScope(
                     node: logic.focusNode,
                     child: Column(
@@ -79,12 +79,12 @@ class LoginView extends StatelessWidget {
                         TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: StringValues.email,
+                            hintText: StringValues.emailUname,
                             hintStyle: TextStyle(
                               color: ColorValues.grayColor,
                             ),
                           ),
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
                           maxLines: 1,
                           style: AppStyles.style14Normal.copyWith(
                             color: Theme.of(Get.context!)

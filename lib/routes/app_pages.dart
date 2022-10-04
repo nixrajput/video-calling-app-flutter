@@ -21,7 +21,11 @@ import 'package:video_calling_app/modules/calling/views/start_view.dart';
 import 'package:video_calling_app/modules/home/bindings/home_binding.dart';
 import 'package:video_calling_app/modules/home/views/home_view.dart';
 import 'package:video_calling_app/modules/maintenance/server_maintenance_view.dart';
+import 'package:video_calling_app/modules/profile/bindings/edit_name_binding.dart';
+import 'package:video_calling_app/modules/profile/bindings/edit_username_binding.dart';
 import 'package:video_calling_app/modules/profile/bindings/profile_binding.dart';
+import 'package:video_calling_app/modules/profile/views/edit_name_view.dart';
+import 'package:video_calling_app/modules/profile/views/edit_username_view.dart';
 import 'package:video_calling_app/modules/profile/views/profile_view.dart';
 
 part 'app_routes.dart';
@@ -120,6 +124,21 @@ abstract class AppPages {
       name: _Routes.profile,
       page: ProfileView.new,
       binding: ProfileBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Routes.editName,
+      page: EditNameView.new,
+      binding: EditNameBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.downToUp,
+    ),
+
+    GetPage(
+      name: _Routes.editUsername,
+      page: EditUsernameView.new,
+      binding: EditUsernameBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.downToUp,
     ),
