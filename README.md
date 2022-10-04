@@ -10,7 +10,9 @@ LiveBox is a video calling and conferencing app that allows you to make video ca
 
 - The app is currently available for Android only.
 
-- We are open to contributions. Feel free to open an issue or a pull request.
+- We are open to contributions. If you want to contribute, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+
+- Feel free to open an issue or a pull request.
 
 ## Setup
 
