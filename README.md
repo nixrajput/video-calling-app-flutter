@@ -62,6 +62,10 @@ You can download the app from the [releases page][releases].
 ## Features
 
 - [x] User Authentication
+- [x] Change Profile Picture
+- [x] Change Username
+- [x] Change Password
+- [x] Change Name
 - [x] Video Calling & Conferencing
 
 ## Future Plans
