@@ -29,8 +29,9 @@ class StartView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const NxAppBar(
+                      NxAppBar(
                         title: StringValues.start,
+                        padding: Dimens.edgeInsets8_16,
                       ),
                       Expanded(
                         child: Column(
@@ -39,7 +40,7 @@ class StartView extends StatelessWidget {
                           children: [
                             const Expanded(child: SizedBox()),
                             Padding(
-                              padding: Dimens.edgeInsets8,
+                              padding: Dimens.edgeInsets8_16,
                               child: Column(
                                 children: [
                                   Row(

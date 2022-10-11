@@ -28,8 +28,9 @@ class ChangePasswordView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const NxAppBar(
+                      NxAppBar(
                         title: StringValues.changePassword,
+                        padding: Dimens.edgeInsets8_16,
                       ),
                       _buildBody(logic),
                     ],
@@ -41,7 +42,7 @@ class ChangePasswordView extends StatelessWidget {
                     child: NxFilledButton(
                       borderRadius: Dimens.zero,
                       onTap: logic.changePassword,
-                      label: StringValues.changePassword,
+                      label: StringValues.changePassword.toUpperCase(),
                     ),
                   )
                 ],
@@ -56,7 +57,7 @@ class ChangePasswordView extends StatelessWidget {
   Widget _buildBody(ChangePasswordController logic) => Expanded(
         child: SingleChildScrollView(
           child: Padding(
-            padding: Dimens.edgeInsets8,
+            padding: Dimens.edgeInsets8_16,
             child: FocusScope(
               node: logic.focusNode,
               child: Column(

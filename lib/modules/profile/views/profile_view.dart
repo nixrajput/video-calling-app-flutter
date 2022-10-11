@@ -29,12 +29,13 @@ class ProfileView extends StatelessWidget {
         height: Dimens.screenHeight,
         child: Column(
           children: [
-            const NxAppBar(
+            NxAppBar(
               title: StringValues.profile,
+              padding: Dimens.edgeInsets8_16,
             ),
             Expanded(
               child: Padding(
-                padding: Dimens.edgeInsets8,
+                padding: Dimens.edgeInsets8_16,
                 child: GetBuilder<ProfileController>(
                   builder: (logic) {
                     if (logic.isLoading) {
